@@ -14,9 +14,9 @@ build/
 *.egg
 
 # Data (large files, never commit)
-data/raw/
-data/processed/
+data/raw/*
 !data/raw/.gitkeep
+data/processed/*
 !data/processed/.gitkeep
 
 # Jupyter
