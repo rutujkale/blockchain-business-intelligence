@@ -16,6 +16,8 @@ build/
 # Data (large files, never commit)
 data/raw/
 data/processed/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
 
 # Jupyter
 .ipynb_checkpoints/
