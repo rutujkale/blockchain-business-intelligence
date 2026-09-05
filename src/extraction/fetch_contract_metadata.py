@@ -4,6 +4,7 @@ and any other contracts that appear frequently in the raw transfer data."""
 import os
 import csv
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -24,17 +25,16 @@ MAX_RETRIES = 5
 
 TARGET_CONTRACT = "0x794a61358D6845594F94dc1DB02A252b5b4814aD"  # Aave V3 Pool
 
-# Well-known protocol/token contracts we expect to see (name + category labels)
-KNOWN_CONTRACTS = {
+# Well-known protocol/token contracts we expect to see (lowercased keys -> labels)
+KNOWN_CONTRACTS = {k.lower(): v for k, v in {
     "0x794a61358D6845594F94dc1DB02A252b5b4814aD": {"name": "Aave V3 Pool", "category": "Lending"},
     "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270": {"name": "Wrapped MATIC (WMATIC)", "category": "Token"},
     "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {"name": "USDC (PoS)", "category": "Token"},
     "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": {"name": "USDT (PoS)", "category": "Token"},
     "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619": {"name": "WETH (PoS)", "category": "Token"},
     "0xD6DF932A45C0f255f85145f286eA0b292B21C90B": {"name": "AAVE (PoS)", "category": "Token"},
-    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {"name": "USDC (PoS)", "category": "Token"},
     "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359": {"name": "USDC (Bridged)", "category": "Token"},
-}
+}.items()}
 
 
 def api_get(params: dict) -> dict | list:
@@ -76,6 +76,29 @@ def get_top_contracts_from_transfers(top_n: int = 15) -> list[str]:
     return [c[0] for c in sorted_contracts[:top_n]]
 
 
+def fetch_creation_date(creation_tx_hash: str) -> str:
+    """Resolve contract creation date from its creation tx via the proxy API.
+
+    Returns an ISO date string (YYYY-MM-DD) or an empty string.
+    """
+    if not creation_tx_hash:
+        return ""
+    params = {"module": "proxy", "action": "eth_getTransactionByHash", "txhash": creation_tx_hash}
+    tx = api_get(params)
+    if not isinstance(tx, dict) or not tx.get("blockNumber"):
+        return ""
+    params = {"module": "proxy", "action": "eth_getBlockByNumber",
+              "tag": tx["blockNumber"], "boolean": "false"}
+    block = api_get(params)
+    if not isinstance(block, dict) or not block.get("timestamp"):
+        return ""
+    try:
+        ts = int(block["timestamp"], 16)
+        return datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d")
+    except (ValueError, TypeError):
+        return ""
+
+
 def fetch_contract_info(address: str) -> dict:
     """Name + verified status from getsourcecode, creator from getcontractcreation."""
     info = {
@@ -85,6 +108,7 @@ def fetch_contract_info(address: str) -> dict:
         "verified": False,
         "creator": "",
         "creation_tx_hash": "",
+        "creation_date": "",
     }
 
     # Verified source gives the contract name; empty name == unverified
@@ -100,6 +124,9 @@ def fetch_contract_info(address: str) -> dict:
     if isinstance(result, list) and result:
         info["creator"] = result[0].get("contractCreator", "")
         info["creation_tx_hash"] = result[0].get("txHash", "")
+
+    if info["creation_tx_hash"]:
+        info["creation_date"] = fetch_creation_date(info["creation_tx_hash"])
 
     known = KNOWN_CONTRACTS.get(address.lower())
     if known:
