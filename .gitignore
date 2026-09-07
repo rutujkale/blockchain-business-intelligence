@@ -32,3 +32,6 @@ Thumbs.db
 
 # Power BI
 dashboard/*.pbix
+
+# Large dashboard extracts (never commit; local-only for the manual .pbix build)
+dashboard/data_extracts/fact_transactions.csv
