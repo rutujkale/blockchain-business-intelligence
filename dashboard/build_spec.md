@@ -72,10 +72,27 @@ Layout: 4 KPI cards in top row, then two trend lines, then a callout + MoM table
 | 4.3 | Table | Table | `dim_wallets` | Top 10 by `total_volume` + `wallet_segment`, `total_transactions`, `recency_days` | explicit Top-N filter = 10 |
 | 4.4 | Matrix | Matrix | Rows = `hour_utc`, Columns = `weekday` | Values = `Total Transactions` | heatmap style; color scale |
 
-## PAGE 5 — Recommendations (placeholder until Part 7)
+## PAGE 5 — Recommendations
 
-Empty page with a text box: "Recommendations — populated in Part 7
-(business recommendations report)."
+Text box populated from Part 7 (`outputs/reports/business_recommendations.md`).
+Recommended layout: one headline callout (implication sentence) + a 6-row
+table (Rec → Priority → Owner → Next step). Paste-ready content:
+
+> **Headline (callout):** "Not growth — a spike and a decay: MAU fell −94%
+> from the April peak; top 1% of wallets (~190) drive ~49% of transactions;
+> prioritize retention of the committed core and value-measurement before
+> acquisition spend."
+>
+> | # | Recommendation | Priority | Owner | Next step |
+> |---|---|---|---|---|
+> | R-1 | Attack the month-1 retention cliff (21.1% → target 30%) | High | Product Manager | 30-day onboarding + reactivation campaign over New/Emerging (714) and High-Value Dormant + Frequent (6,257) |
+> | R-2 | Formalize concentration/dependency risk | High | Operations | Add top-1% share trend to dashboard; alert if >60% in any 7-day window; key-account list from `dim_wallets` |
+> | R-3 | Fix value-measurement gap | High | Finance | Decode deposit/borrow/withdraw at function level; load real-time POL-USD + aToken prices; recompute monetary KPIs |
+> | R-4 | Reframe growth around a durable-base KPI | Medium | Executive | Add "retained core (active ≥2 of last 3 months)" card next to MAU on Page 1 |
+> | R-5 | Keep Polygon; re-measure economics after R-3 | Low | Finance | Enforce gas ≤ 0.5% of transferred value by function once R-3 lands |
+> | R-6 | Build explicit bot/anomaly detection | High | Risk/Compliance | Flag wallets with ≥90% of activity in the peak hour-day cluster; alert on per-wallet rate spikes |
+>
+> Footer: "Full report & evidence backings: `outputs/reports/business_recommendations.md`"
 
 ## Step 2 — Final checks before saving
 
