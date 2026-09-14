@@ -1,5 +1,7 @@
 # Environment
 .env
+.env.*
+!.env.example
 .venv/
 venv/
 env/
@@ -22,9 +24,23 @@ data/processed/*
 # Jupyter
 .ipynb_checkpoints/
 
+# Logs
+*.log
+logs/
+
+# Tool caches / coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+*.swp
+*.swo
 
 # IDE
 .vscode/
