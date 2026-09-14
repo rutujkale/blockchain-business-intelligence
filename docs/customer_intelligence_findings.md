@@ -77,9 +77,9 @@ settle at 10–27% month-1, notably below March.
 **Plausible business explanation:** the April 8–14 spike looks like a
 promotional / airdrop-farming event (one-shot and bot wallets — Part 4 found
 79.5% of senders had exactly one transaction). It inflated active-wallet
-counts (Part 4: 12,407 MAU in April vs ~3,000 typical) and central-request
-prices without producing durable users. The core user base is the smaller
-committed group that keeps transacting through July–September.
+counts (Part 4: 12,407 MAU in April vs ~3,000 typical) without producing
+durable users. The core user base is the smaller committed group that keeps
+transacting through July–September.
 
 ## 3. One concrete recommendation (seeds Part 7)
 
