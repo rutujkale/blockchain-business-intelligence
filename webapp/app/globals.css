@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* ChainBI "Precision Analytical System" — light theme only, ported from the
+   Stitch DESIGN.md frontmatter + code.html tailwind.config. */
+
+@theme {
+  /* ---- color ---- */
+  --color-surface: #f9f9ff;
+  --color-surface-dim: #d3daef;
+  --color-surface-bright: #f9f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f1f3ff;
+  --color-surface-container: #e9edff;
+  --color-surface-container-high: #e1e8fd;
+  --color-surface-container-highest: #dce2f7;
+  --color-on-surface: #141b2b;
+  --color-on-surface-variant: #434655;
+  --color-inverse-surface: #293040;
+  --color-inverse-on-surface: #edf0ff;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+  --color-surface-tint: #0053db;
+  --color-primary: #004ac6;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #2563eb;
+  --color-on-primary-container: #eeefff;
+  --color-inverse-primary: #b4c5ff;
+  --color-secondary: #4648d4;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #6063ee;
+  --color-on-secondary-container: #fffbff;
+  --color-tertiary: #006329;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #007f36;
+  --color-on-tertiary-container: #c7ffca;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-primary-fixed: #dbe1ff;
+  --color-primary-fixed-dim: #b4c5ff;
+  --color-on-primary-fixed: #00174b;
+  --color-on-primary-fixed-variant: #003ea8;
+  --color-secondary-fixed: #e1e0ff;
+  --color-secondary-fixed-dim: #c0c1ff;
+  --color-on-secondary-fixed: #07006c;
+  --color-on-secondary-fixed-variant: #2f2ebe;
+  --color-tertiary-fixed: #7ffc97;
+  --color-tertiary-fixed-dim: #62df7d;
+  --color-on-tertiary-fixed: #002109;
+  --color-on-tertiary-fixed-variant: #005320;
+  --color-background: #f9f9ff;
+  --color-on-background: #141b2b;
+  --color-surface-variant: #dce2f7;
+
+  /* ---- neutral ladder (DESIGN.md "Colors" section) ---- */
+  --color-hairline: #e5e7eb;
+  --color-hairline-soft: #f3f4f6;
+  --color-canvas: #f7f8fa;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-positive: #16a34a;
+  --color-positive-tint: #dcfce7;
+  --color-positive-text: #15803d;
+  --color-warning: #f59e0b;
+  --color-negative: #dc2626;
+
+  /* ---- radii (code.html borderRadius) ---- */
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* ---- spacing (code.html spacing) ---- */
+  --spacing-gutter: 1rem;
+  --spacing-gutter-lg: 1.5rem;
+  --spacing-margin: 1.5rem;
+  --spacing-margin-lg: 2rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 0.75rem;
+  --spacing-space-lg: 1rem;
+  --spacing-space-xl: 1.5rem;
+
+  /* ---- typography ---- */
+  --font-headline-xl: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-sm: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body-lg: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-label-md: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-label-sm: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-code-md: "JetBrains Mono", ui-monospace, monospace;
+  --font-code-sm: "JetBrains Mono", ui-monospace, monospace;
+
+  --text-headline-xl: 2rem;
+  --text-headline-xl--line-height: 2.5rem;
+  --text-headline-xl--letter-spacing: -0.025em;
+  --text-headline-xl--font-weight: 600;
+
+  --text-headline-lg: 1.5rem;
+  --text-headline-lg--line-height: 2rem;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 1.125rem;
+  --text-headline-md--line-height: 1.5rem;
+  --text-headline-md--letter-spacing: -0.015em;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 0.9375rem;
+  --text-headline-sm--line-height: 1.25rem;
+  --text-headline-sm--letter-spacing: -0.01em;
+  --text-headline-sm--font-weight: 600;
+
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.5rem;
+
+  --text-body-md: 0.875rem;
+  --text-body-md--line-height: 1.25rem;
+
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.125rem;
+
+  --text-label-md: 0.75rem;
+  --text-label-md--line-height: 1rem;
+  --text-label-md--letter-spacing: 0.01em;
+  --text-label-md--font-weight: 500;
+
+  --text-label-sm: 0.6875rem;
+  --text-label-sm--line-height: 0.875rem;
+  --text-label-sm--letter-spacing: 0.02em;
+  --text-label-sm--font-weight: 500;
+
+  --text-code-md: 0.8125rem;
+  --text-code-md--line-height: 1.125rem;
+
+  --text-code-sm: 0.6875rem;
+  --text-code-sm--line-height: 1rem;
+
+  /* ---- elevation (DESIGN.md, neutral shadows only) ---- */
+  --shadow-e1: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-e2: 0 2px 4px -1px rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-e3: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.03);
+  --shadow-e4: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+
+  /* ---- Recharts / chart palette ---- */
+  --color-chart-1: #1d9e75;
+  --color-chart-2: #7f77dd;
+  --color-chart-3: #2e7fd1;
+  --color-chart-4: #ba7517;
+  --color-chart-5: #e0577b;
+  --color-chart-6: #4ebfae;
+  --color-chart-7: #9b8ae8;
+  --color-chart-8: #6b7280;
+}
+
+html {
+  background-color: var(--color-surface);
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
+}
+
+/* DESIGN.md: tabular figures must be active globally so live re-renders of
+   stat callouts and tables do not shift layout. */
+table,
+.font-code-md,
+.font-code-sm,
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* DESIGN.md: uppercase column headers with explicit tracking. */
+th {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Recharts lets a tick label be shortened independently of the data key, so
+   axis labels stay "Mar" while tooltips keep "March 2026". */
+.recharts-cartesian-axis-tick-value {
+  font-family: var(--font-body-sm);
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background-color: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20;
+  font-size: 18px;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-surface-container-low);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 4px;
+}
+
+/* Recharts focus outlines are noisy in a dense analytical layout. */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "month": "2026-03",
+    "month_label": "March 2026",
+    "monthly_active_wallets": 2793,
+    "new_wallets": 2793,
+    "returning_wallets": 0,
+    "tx_count": 22564,
+    "failed_tx_count": 1142,
+    "whale_tx_count": 0,
+    "total_gas_usd": 104.32,
+    "total_volume_pol": 0.0
+  },
+  {
+    "month": "2026-04",
+    "month_label": "April 2026",
+    "monthly_active_wallets": 12407,
+    "new_wallets": 11094,
+    "returning_wallets": 1313,
+    "tx_count": 49381,
+    "failed_tx_count": 560,
+    "whale_tx_count": 0,
+    "total_gas_usd": 188.28,
+    "total_volume_pol": 65.350143
+  },
+  {
+    "month": "2026-05",
+    "month_label": "May 2026",
+    "monthly_active_wallets": 2947,
+    "new_wallets": 1451,
+    "returning_wallets": 1496,
+    "tx_count": 22413,
+    "failed_tx_count": 1451,
+    "whale_tx_count": 0,
+    "total_gas_usd": 195.81,
+    "total_volume_pol": 0.0501
+  },
+  {
+    "month": "2026-06",
+    "month_label": "June 2026",
+    "monthly_active_wallets": 3572,
+    "new_wallets": 1653,
+    "returning_wallets": 1919,
+    "tx_count": 26292,
+    "failed_tx_count": 426,
+    "whale_tx_count": 0,
+    "total_gas_usd": 274.05,
+    "total_volume_pol": 0.0
+  },
+  {
+    "month": "2026-07",
+    "month_label": "July 2026",
+    "monthly_active_wallets": 2343,
+    "new_wallets": 895,
+    "returning_wallets": 1448,
+    "tx_count": 17547,
+    "failed_tx_count": 601,
+    "whale_tx_count": 0,
+    "total_gas_usd": 173.75,
+    "total_volume_pol": 0.00561
+  },
+  {
+    "month": "2026-08",
+    "month_label": "August 2026",
+    "monthly_active_wallets": 2582,
+    "new_wallets": 934,
+    "returning_wallets": 1648,
+    "tx_count": 16920,
+    "failed_tx_count": 304,
+    "whale_tx_count": 1,
+    "total_gas_usd": 184.89,
+    "total_volume_pol": 1000.1
+  },
+  {
+    "month": "2026-09",
+    "month_label": "September 2026",
+    "monthly_active_wallets": 716,
+    "new_wallets": 149,
+    "returning_wallets": 567,
+    "tx_count": 3799,
+    "failed_tx_count": 30,
+    "whale_tx_count": 0,
+    "total_gas_usd": 36.5,
+    "total_volume_pol": 0.0001
+  }
+]

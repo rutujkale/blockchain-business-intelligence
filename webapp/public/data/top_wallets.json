@@ -1,0 +1,234 @@
+{
+  "note": "Top user wallets by transaction count. The Pool contract is excluded - it is #1 by raw count because it is the recipient of every transaction, but it is not a user.",
+  "protocol_contract": {
+    "address": "0x794a61358d6845594f94dc1db02a252b5b4814ad",
+    "address_short": "0x794a...4814",
+    "label": "Aave V3 Pool (target contract)",
+    "total_transactions": 158916,
+    "total_volume_pol": 1065.505953,
+    "explorer_url": "https://polygonscan.com/address/0x794a61358d6845594f94dc1db02a252b5b4814ad",
+    "is_contract": true
+  },
+  "wallets": [
+    {
+      "address": "0x1b54d7a348666ac29da0d9f6158c810cdfd5b7f0",
+      "address_short": "0x1b54d7...b7f0",
+      "explorer_url": "https://polygonscan.com/address/0x1b54d7a348666ac29da0d9f6158c810cdfd5b7f0",
+      "segment": "Frequent Users",
+      "total_transactions": 8054,
+      "share_pct": 5.07,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-04-30",
+      "is_contract": false
+    },
+    {
+      "address": "0x21cfe08c7ddb08a8e5fa04baac8b2a1457696731",
+      "address_short": "0x21cfe0...6731",
+      "explorer_url": "https://polygonscan.com/address/0x21cfe08c7ddb08a8e5fa04baac8b2a1457696731",
+      "segment": "Frequent Users",
+      "total_transactions": 6548,
+      "share_pct": 4.12,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0x314d611aef8787851ea56292bdd66b7f0cbc0604",
+      "address_short": "0x314d61...0604",
+      "explorer_url": "https://polygonscan.com/address/0x314d611aef8787851ea56292bdd66b7f0cbc0604",
+      "segment": "Frequent Users",
+      "total_transactions": 5757,
+      "share_pct": 3.62,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-09-03",
+      "is_contract": false
+    },
+    {
+      "address": "0xe1cf1514dda4760ba20c35f7bbb61ac352a27741",
+      "address_short": "0xe1cf15...7741",
+      "explorer_url": "https://polygonscan.com/address/0xe1cf1514dda4760ba20c35f7bbb61ac352a27741",
+      "segment": "High-Value Active",
+      "total_transactions": 2869,
+      "share_pct": 1.81,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-05-07",
+      "is_contract": false
+    },
+    {
+      "address": "0x8605192b352774dc08d591d130d326d06308225c",
+      "address_short": "0x860519...225c",
+      "explorer_url": "https://polygonscan.com/address/0x8605192b352774dc08d591d130d326d06308225c",
+      "segment": "Frequent Users",
+      "total_transactions": 2449,
+      "share_pct": 1.54,
+      "first_seen_date": "2026-04-04",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0xa8c628c1d57d5b0c1cab6eabfc9e7bafa7976816",
+      "address_short": "0xa8c628...6816",
+      "explorer_url": "https://polygonscan.com/address/0xa8c628c1d57d5b0c1cab6eabfc9e7bafa7976816",
+      "segment": "High-Value Active",
+      "total_transactions": 2197,
+      "share_pct": 1.38,
+      "first_seen_date": "2026-03-10",
+      "last_seen_date": "2026-08-28",
+      "is_contract": false
+    },
+    {
+      "address": "0xa84ed895dad7676ab68c2e97c7fe4da263a93fc9",
+      "address_short": "0xa84ed8...3fc9",
+      "explorer_url": "https://polygonscan.com/address/0xa84ed895dad7676ab68c2e97c7fe4da263a93fc9",
+      "segment": "High-Value Active",
+      "total_transactions": 2119,
+      "share_pct": 1.33,
+      "first_seen_date": "2026-05-10",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0xa00f4b75432f08b038f13f57ea9464f686e6c066",
+      "address_short": "0xa00f4b...c066",
+      "explorer_url": "https://polygonscan.com/address/0xa00f4b75432f08b038f13f57ea9464f686e6c066",
+      "segment": "Occasional Users",
+      "total_transactions": 1894,
+      "share_pct": 1.19,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-04-23",
+      "is_contract": false
+    },
+    {
+      "address": "0xcc8286dee5907176cf8fac325e2b0da5ff72f9be",
+      "address_short": "0xcc8286...f9be",
+      "explorer_url": "https://polygonscan.com/address/0xcc8286dee5907176cf8fac325e2b0da5ff72f9be",
+      "segment": "High-Value Active",
+      "total_transactions": 1502,
+      "share_pct": 0.95,
+      "first_seen_date": "2026-06-21",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0x42b827173a4a938e95414d02d5035e4da71332ca",
+      "address_short": "0x42b827...32ca",
+      "explorer_url": "https://polygonscan.com/address/0x42b827173a4a938e95414d02d5035e4da71332ca",
+      "segment": "Frequent Users",
+      "total_transactions": 1278,
+      "share_pct": 0.8,
+      "first_seen_date": "2026-04-19",
+      "last_seen_date": "2026-07-14",
+      "is_contract": false
+    },
+    {
+      "address": "0xebfdee3355189098e1d08386f2ec87c853222335",
+      "address_short": "0xebfdee...2335",
+      "explorer_url": "https://polygonscan.com/address/0xebfdee3355189098e1d08386f2ec87c853222335",
+      "segment": "High-Value Active",
+      "total_transactions": 1070,
+      "share_pct": 0.67,
+      "first_seen_date": "2026-04-16",
+      "last_seen_date": "2026-07-21",
+      "is_contract": false
+    },
+    {
+      "address": "0x47a1cfe8aa52f0c3e2d0db13c5e894d5d4fb43a6",
+      "address_short": "0x47a1cf...43a6",
+      "explorer_url": "https://polygonscan.com/address/0x47a1cfe8aa52f0c3e2d0db13c5e894d5d4fb43a6",
+      "segment": "Frequent Users",
+      "total_transactions": 1060,
+      "share_pct": 0.67,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0x4f7d90622626e58fdc58588148a2e7064f48a58b",
+      "address_short": "0x4f7d90...a58b",
+      "explorer_url": "https://polygonscan.com/address/0x4f7d90622626e58fdc58588148a2e7064f48a58b",
+      "segment": "Frequent Users",
+      "total_transactions": 1051,
+      "share_pct": 0.66,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-09-03",
+      "is_contract": false
+    },
+    {
+      "address": "0xcae89554880a222875f2d75e28f455973297978a",
+      "address_short": "0xcae895...978a",
+      "explorer_url": "https://polygonscan.com/address/0xcae89554880a222875f2d75e28f455973297978a",
+      "segment": "High-Value Active",
+      "total_transactions": 987,
+      "share_pct": 0.62,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-08-03",
+      "is_contract": false
+    },
+    {
+      "address": "0xbbe912f02f778db5cef7a9ef088dc27e5afd2f6b",
+      "address_short": "0xbbe912...2f6b",
+      "explorer_url": "https://polygonscan.com/address/0xbbe912f02f778db5cef7a9ef088dc27e5afd2f6b",
+      "segment": "High-Value Active",
+      "total_transactions": 916,
+      "share_pct": 0.58,
+      "first_seen_date": "2026-05-25",
+      "last_seen_date": "2026-05-26",
+      "is_contract": false
+    },
+    {
+      "address": "0xeac812660156c8d41bf825c7be127a7f92849d7c",
+      "address_short": "0xeac812...9d7c",
+      "explorer_url": "https://polygonscan.com/address/0xeac812660156c8d41bf825c7be127a7f92849d7c",
+      "segment": "High-Value Active",
+      "total_transactions": 915,
+      "share_pct": 0.58,
+      "first_seen_date": "2026-03-11",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0x572372831a9d6b2e3ee8fa284505599e6125fea9",
+      "address_short": "0x572372...fea9",
+      "explorer_url": "https://polygonscan.com/address/0x572372831a9d6b2e3ee8fa284505599e6125fea9",
+      "segment": "Frequent Users",
+      "total_transactions": 871,
+      "share_pct": 0.55,
+      "first_seen_date": "2026-03-25",
+      "last_seen_date": "2026-09-03",
+      "is_contract": false
+    },
+    {
+      "address": "0xf5d1fd3d0de3d0074954261c6d3688acb6115ae4",
+      "address_short": "0xf5d1fd...5ae4",
+      "explorer_url": "https://polygonscan.com/address/0xf5d1fd3d0de3d0074954261c6d3688acb6115ae4",
+      "segment": "High-Value Active",
+      "total_transactions": 863,
+      "share_pct": 0.54,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-09-04",
+      "is_contract": false
+    },
+    {
+      "address": "0x33fa8f94fba0b42de5051bc1733c9e7c2eaf0875",
+      "address_short": "0x33fa8f...0875",
+      "explorer_url": "https://polygonscan.com/address/0x33fa8f94fba0b42de5051bc1733c9e7c2eaf0875",
+      "segment": "Frequent Users",
+      "total_transactions": 845,
+      "share_pct": 0.53,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-08-18",
+      "is_contract": false
+    },
+    {
+      "address": "0xb2e0a660ea47119bd1f5ffbed83f5932375d0622",
+      "address_short": "0xb2e0a6...0622",
+      "explorer_url": "https://polygonscan.com/address/0xb2e0a660ea47119bd1f5ffbed83f5932375d0622",
+      "segment": "High-Value Active",
+      "total_transactions": 818,
+      "share_pct": 0.51,
+      "first_seen_date": "2026-03-09",
+      "last_seen_date": "2026-08-05",
+      "is_contract": false
+    }
+  ]
+}

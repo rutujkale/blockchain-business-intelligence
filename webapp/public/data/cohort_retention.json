@@ -1,0 +1,104 @@
+{
+  "definition": "A wallet is retained in month M if it transacted with the Pool in that calendar month. null = the cohort has not reached that month yet.",
+  "avg_month1_retention_pct": 21.1,
+  "cohorts": [
+    {
+      "cohort_month": "2026-03",
+      "cohort_month_label": "March 2026",
+      "cohort_size": 2793,
+      "retention": [
+        100.0,
+        47.01,
+        35.05,
+        35.98,
+        24.38,
+        25.99,
+        9.52
+      ]
+    },
+    {
+      "cohort_month": "2026-04",
+      "cohort_month_label": "April 2026",
+      "cohort_size": 11094,
+      "retention": [
+        100.0,
+        4.66,
+        4.7,
+        2.7,
+        2.97,
+        0.84,
+        null
+      ]
+    },
+    {
+      "cohort_month": "2026-05",
+      "cohort_month_label": "May 2026",
+      "cohort_size": 1451,
+      "retention": [
+        100.0,
+        27.08,
+        12.68,
+        12.2,
+        2.62,
+        null,
+        null
+      ]
+    },
+    {
+      "cohort_month": "2026-06",
+      "cohort_month_label": "June 2026",
+      "cohort_size": 1653,
+      "retention": [
+        100.0,
+        17.18,
+        14.22,
+        2.42,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "cohort_month": "2026-07",
+      "cohort_month_label": "July 2026",
+      "cohort_size": 895,
+      "retention": [
+        100.0,
+        20.11,
+        3.35,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "cohort_month": "2026-08",
+      "cohort_month_label": "August 2026",
+      "cohort_size": 934,
+      "retention": [
+        100.0,
+        10.71,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "cohort_month": "2026-09",
+      "cohort_month_label": "September 2026",
+      "cohort_size": 149,
+      "retention": [
+        100.0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "source": "outputs/reports/business_recommendations.md section 4",
+  "recommendations": [
+    {
+      "id": "R-1",
+      "title": "Attack the month-1 retention cliff",
+      "priority": "High",
+      "category": "Retention",
+      "owner": "Product Manager",
+      "maps_to": [
+        "BR-02",
+        "BR-05"
+      ],
+      "rationale": "Finding 3.6: month-1 retention averages 21.1%; the single sharpest drop in the entire funnel is month 0 -> 1. New + Emerging users (714 wallets) and the High-Value Dormant segment (3,010) are the cheapest to win back.",
+      "next_step": "Within 30 days, ship a first-supply onboarding flow (education + deposit) targeting New/Emerging wallets and launch a reactivation campaign over High-Value Dormant + Frequent Users (6,257 wallets). Success metric: average month-1 retention from 21.1% toward 30%, and >10% of the reactivated dormant segment active again within 90 days."
+    },
+    {
+      "id": "R-2",
+      "title": "Formalize the concentration / dependency risk",
+      "priority": "High",
+      "category": "Risk",
+      "owner": "Operations",
+      "maps_to": [
+        "BR-04",
+        "BR-07"
+      ],
+      "rationale": "Findings 3.3 + 3.5: top 1% (~190 wallets) = ~49% of transactions; power users look automated. One automated account departing is a material activity drop.",
+      "next_step": "Add a weekly dependency metric to the dashboard - the top-1% share of transaction count with a rule: alert if it exceeds 60% of any 7-day window (it is ~49% today). Build and maintain a key-account list for the ~50 highest-activity wallets (they are already in dim_wallets.csv), and classify them agent vs retail so the dependency number is intelligible."
+    },
+    {
+      "id": "R-3",
+      "title": "Fix the value-measurement gap before any pricing/campaigning",
+      "priority": "High",
+      "category": "Measurement",
+      "owner": "Finance",
+      "maps_to": [
+        "BR-03",
+        "BR-04"
+      ],
+      "rationale": "Findings 3.3 + 3.4: native value is degenerate at the Pool level, so KPI-03/04/07 and all volume-by-segment visuals are not economically real. You cannot price, fee, or market on numbers that read ~$0.",
+      "next_step": "Extend the warehouse with function-level call decoding (deposit/borrow/withdraw/repay amounts) and load a real-time POL-USD + aToken price reference (the current POL-USD feed is a single static value captured at load time). Recompute the monetary KPIs and the HVA/HVD segment value splits from the decoded values, not Pool-level value_native."
+    },
+    {
+      "id": "R-4",
+      "title": "Reframe the growth narrative around a durable-base KPI",
+      "priority": "Medium",
+      "category": "Executive",
+      "owner": "Executive / Leadership",
+      "maps_to": [
+        "BR-01"
+      ],
+      "rationale": "Findings 3.1 + 3.2: the April spike was 58% of the base and retained 4.7%; MAU as currently presented overstates health.",
+      "next_step": "Add a retained-core measure to the dashboard - wallets active in >=2 of the last 3 months (computed from dim_wallets first_seen_date/last_seen_date) - as the second headline card next to MAU, and set a growth target on it. Report these two numbers together so a spike cannot masquerade as growth."
+    },
+    {
+      "id": "R-5",
+      "title": "Keep Polygon as the operating chain; re-measure cost economics after R-3",
+      "priority": "Low",
+      "category": "Cost",
+      "owner": "Finance",
+      "maps_to": [
+        "BR-03"
+      ],
+      "rationale": "Finding 3.4: ~$0.0073/tx validates the cost side of the Polygon thesis. There is no cost-discount lever to pull; the economics work is measurement, not migration.",
+      "next_step": "After R-3 lands, recompute gas-as-% of transaction value from function-level values, and set an efficiency threshold (e.g. gas <= 0.5% of transferred value by function) that surfaces in the cost page. Until then, stop reporting the degenerate ratio."
+    },
+    {
+      "id": "R-6",
+      "title": "Build explicit bot/anomaly detection into the risk log",
+      "priority": "High",
+      "category": "Risk",
+      "owner": "Risk / Compliance",
+      "maps_to": [
+        "BR-07"
+      ],
+      "rationale": "Finding 3.5: a tight 12:00-UTC Thursday cluster with near-zero weekends is characteristic of orchestrated activity; 2.84% of transactions (4,514) already fail. Risk should see this explicitly, not infer it.",
+      "next_step": "Add a detection rule to the anomaly log (flagged_transactions.csv pipeline): flag wallets whose activity is >=90% inside the observed peak hour-DOW cluster, and alert on per-wallet daily rate spikes. This turns the F5 timing observation into an operational, queryable risk signal."
+    }
+  ]
+}

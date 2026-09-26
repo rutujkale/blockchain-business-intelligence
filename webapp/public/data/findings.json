@@ -1,0 +1,145 @@
+{
+  "source": "outputs/reports/business_recommendations.md section 3",
+  "findings": [
+    {
+      "id": "3.1",
+      "title": "Activity collapsed after a single April spike",
+      "business_impact": "The protocol is not growing. Any growth narrative built on the April number (12,407 MAU, ~49.4K txs, 4,874 txs on a single peak day) is false advertising to leadership and stakeholders.",
+      "evidence": "outputs/figures/01_daily_active_wallets.png, 02_new_vs_returning_monthly.png; notebooks/01_eda.ipynb section 1",
+      "confidence": "High",
+      "confidence_note": "Simple COUNT window queries over the full clean ledger; no estimation involved.",
+      "metrics": [
+        {
+          "label": "Peak MAU (Apr 2026)",
+          "value": "12,407"
+        },
+        {
+          "label": "Partial MAU (Sep 2026, to 09-05)",
+          "value": "716"
+        },
+        {
+          "label": "Peak single day",
+          "value": "4,874 txs"
+        },
+        {
+          "label": "Month-over-month change",
+          "value": "-94%"
+        }
+      ]
+    },
+    {
+      "id": "3.2",
+      "title": "The surviving base is one-shot-heavy but maturing",
+      "business_impact": "79.5% of the 18,968 distinct senders transacted in a single month; yet new-wallet share fell 100% -> ~21%, so the smaller later base is increasingly retained users. The funnel is acquisition-heavy with a thin loyal core - re-engagement, not acquisition, is where growth effort pays.",
+      "evidence": "outputs/figures/02_new_vs_returning_monthly.png, 03_tx_per_wallet_dist.png; notebooks/01_eda.ipynb section 1",
+      "confidence": "High",
+      "confidence_note": "Direct counts from wallets.first_seen_date / transactions.",
+      "metrics": [
+        {
+          "label": "Single-month senders",
+          "value": "79.5%"
+        },
+        {
+          "label": "Distinct senders",
+          "value": "18,968"
+        },
+        {
+          "label": "New-wallet share Mar -> Sep",
+          "value": "100% -> ~21%"
+        }
+      ]
+    },
+    {
+      "id": "3.3",
+      "title": "Extreme user concentration; native value is degenerate",
+      "business_impact": "Top 1% of user wallets (~190) drive ~49% of transactions; the busiest user (0x1b54...b7f0) executed 8,054 txs. Meanwhile ~100% of native value sits in the Pool contract itself (one 1,000-POL supply tx dominates; median tx value = 0 POL). Dependency risk is real and unmitigated; value-based whale lists are currently meaningless at the Pool level.",
+      "evidence": "outputs/figures/10_concentration.png, 11_top_10_wallets.png, 05_value_distribution_whale.png; notebooks/01_eda.ipynb section 4",
+      "confidence": "Medium",
+      "confidence_note": "Activity concentration is a direct computation (High); the automated-agents reading of the power users is inferred from timing/behaviour, not proven (see 3.5).",
+      "metrics": [
+        {
+          "label": "Top 1% share of transactions",
+          "value": "~49%"
+        },
+        {
+          "label": "Busiest wallet",
+          "value": "8,054 txs"
+        },
+        {
+          "label": "Txs carrying native value",
+          "value": "38 of 158,916"
+        }
+      ]
+    },
+    {
+      "id": "3.4",
+      "title": "Costs are negligible; the native value signal is not meaningful",
+      "business_impact": "~$0.0073/transaction, ~$1,158 total: operating on Polygon is cheap for users and for the protocol. The gas-as-%-of-value ratio and the value x gas correlation (r = -0.05, p = 0.75, n = 38) are noise, because value is carried as aTokens, not native POL. Fee economics must be re-measured at function level before Finance can price or campaign on them.",
+      "evidence": "outputs/figures/07_gas_cost_trend.png, 08_gas_pct_of_value.png, 09_value_vs_gas_scatter.png; notebooks/01_eda.ipynb section 3",
+      "confidence": "High",
+      "confidence_note": "High for the cost numbers (gas_used x gas_price with the POL-USD feed); the interpretation that value KPIs are degenerate is well-evidenced but reflects a known data-model constraint (Medium).",
+      "metrics": [
+        {
+          "label": "Cost per transaction",
+          "value": "~$0.0073"
+        },
+        {
+          "label": "Total gas cost",
+          "value": "~$1,158"
+        },
+        {
+          "label": "Value x gas correlation",
+          "value": "r = -0.05, p = 0.75"
+        }
+      ]
+    },
+    {
+      "id": "3.5",
+      "title": "Activity is timed like orchestrated/bot usage",
+      "business_impact": "Activity clusters at 12:00 UTC on Thursdays inside a narrow band of mid-week hours, with near-zero weekend traffic. Consistent with automated agents/aggregators rather than organic retail. Bots distort MAU, waste measurement, and concentrate risk; they are also a segment Operations can serve deliberately.",
+      "evidence": "outputs/figures/06_hour_dow_heatmap.png; notebooks/01_eda.ipynb section 2",
+      "confidence": "Medium",
+      "confidence_note": "The pattern is certain; why is circumstantial (no wallet-fingerprinting was done).",
+      "metrics": [
+        {
+          "label": "Peak cell",
+          "value": "12:00 UTC, Thursday"
+        },
+        {
+          "label": "Transactions in peak cell",
+          "value": "1,789"
+        },
+        {
+          "label": "Weekend traffic",
+          "value": "near zero"
+        }
+      ]
+    },
+    {
+      "id": "3.6",
+      "title": "Retention is poor, and the acquisition spike cohort retained almost no one",
+      "business_impact": "Average month-1 retention = 21.1%. The April cohort (11,094 wallets - 58% of the entire base) retained just 4.7% after one month; the March cohort held 47%. Retention, not acquisition, is the highest-leverage intervention.",
+      "evidence": "outputs/figures/cohort_retention_heatmap.png; dashboard/data_extracts/cohort_retention_matrix.csv; docs/customer_intelligence_findings.md",
+      "confidence": "High",
+      "confidence_note": "Cohort/segment counts recomputed from wallets.first_seen_date and per-month activity; every wallet assigned exactly one segment (18,981/18,981, 0 gaps).",
+      "metrics": [
+        {
+          "label": "Average month-1 retention",
+          "value": "21.1%"
+        },
+        {
+          "label": "April cohort size",
+          "value": "11,094 (58% of base)"
+        },
+        {
+          "label": "April cohort month-1 retention",
+          "value": "4.7%"
+        },
+        {
+          "label": "March cohort month-1 retention",
+          "value": "47%"
+        }
+      ]
+    }
+  ]
+}

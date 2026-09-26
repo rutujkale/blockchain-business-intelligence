@@ -1,0 +1,29 @@
+{
+  "monthly_active_wallets_peak": 12407,
+  "monthly_active_wallets_peak_month": "2026-04",
+  "monthly_active_wallets_peak_month_label": "April 2026",
+  "current_partial_mau": 716,
+  "current_partial_mau_month": "2026-09",
+  "current_partial_mau_is_partial": true,
+  "mau_includes_pool_contract": true,
+  "total_wallets": 18981,
+  "total_transactions": 158916,
+  "total_contracts": 159,
+  "total_token_transfers": 163,
+  "date_range": {
+    "start": "2026-03-09",
+    "end": "2026-09-05",
+    "days": 181
+  },
+  "whale_concentration_pct": 48.7,
+  "whale_wallet_count": 190,
+  "whale_definition": "Top 190 user wallets (1% of 18968 distinct senders) by transaction count, excluding the Pool contract",
+  "avg_month1_retention_pct": 21.1,
+  "avg_gas_cost_usd": 0.00728,
+  "total_gas_cost_usd": 1157.62,
+  "failed_tx_pct": 2.84,
+  "failed_tx_count": 4514,
+  "tx_carrying_native_value": 38,
+  "total_volume_pol": 1065.505953,
+  "value_caveat": "Native value is degenerate at the Pool level - see limitations L-3. Aave positions move as ERC-20 aTokens, so value_native reads ~0 for real users and ~100% of received POL sits in the Pool contract."
+}

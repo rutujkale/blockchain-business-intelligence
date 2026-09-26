@@ -1,0 +1,132 @@
+{
+  "total_transactions": 158916,
+  "grouping_rule": "Grouped by contract function name prefix, not the full signature - supply() covers both 0x617ba037 (V3 pool) and 0xe9c7359c (V2 GHO), and withdraw() covers 0x69328dec and 0x3ccfd60b.",
+  "other_bucket_threshold_pct": 1.0,
+  "mix": [
+    {
+      "function": "supply",
+      "tx_count": 54066,
+      "pct_of_total": 34.02
+    },
+    {
+      "function": "withdraw",
+      "tx_count": 50672,
+      "pct_of_total": 31.89
+    },
+    {
+      "function": "borrow",
+      "tx_count": 29479,
+      "pct_of_total": 18.55
+    },
+    {
+      "function": "repay",
+      "tx_count": 18051,
+      "pct_of_total": 11.36
+    },
+    {
+      "function": "Other",
+      "tx_count": 6648,
+      "pct_of_total": 4.18
+    }
+  ],
+  "detail": [
+    {
+      "function": "supply",
+      "tx_count": 54066,
+      "pct_of_total": 34.02
+    },
+    {
+      "function": "withdraw",
+      "tx_count": 50672,
+      "pct_of_total": 31.89
+    },
+    {
+      "function": "borrow",
+      "tx_count": 29479,
+      "pct_of_total": 18.55
+    },
+    {
+      "function": "repay",
+      "tx_count": 18051,
+      "pct_of_total": 11.36
+    },
+    {
+      "function": "setUserUseReserveAsCollateral",
+      "tx_count": 1418,
+      "pct_of_total": 0.89
+    },
+    {
+      "function": "repayWithATokens",
+      "tx_count": 1294,
+      "pct_of_total": 0.81
+    },
+    {
+      "function": "multicall",
+      "tx_count": 1139,
+      "pct_of_total": 0.72
+    },
+    {
+      "function": "flashLoanSimple",
+      "tx_count": 966,
+      "pct_of_total": 0.61
+    },
+    {
+      "function": "liquidationCall",
+      "tx_count": 597,
+      "pct_of_total": 0.38
+    },
+    {
+      "function": "setUserEMode",
+      "tx_count": 568,
+      "pct_of_total": 0.36
+    },
+    {
+      "function": "(undecoded)",
+      "tx_count": 435,
+      "pct_of_total": 0.27
+    },
+    {
+      "function": "flashLoan",
+      "tx_count": 131,
+      "pct_of_total": 0.08
+    },
+    {
+      "function": "mintToTreasury",
+      "tx_count": 92,
+      "pct_of_total": 0.06
+    },
+    {
+      "function": "deposit",
+      "tx_count": 2,
+      "pct_of_total": 0.0
+    },
+    {
+      "function": "transfer",
+      "tx_count": 2,
+      "pct_of_total": 0.0
+    },
+    {
+      "function": "approve",
+      "tx_count": 2,
+      "pct_of_total": 0.0
+    },
+    {
+      "function": "approvePositionManager",
+      "tx_count": 1,
+      "pct_of_total": 0.0
+    },
+    {
+      "function": "initialize",
+      "tx_count": 1,
+      "pct_of_total": 0.0
+    }
+  ],
+  "headline_metrics": {
+    "median_gas_used": 224490,
+    "flash_loan_tx_count": 1097,
+    "flash_loan_rate_pct": 0.69,
+    "liquidation_call_count": 597,
+    "liquidation_call_rate_pct": 0.38,
+    "undecoded_tx_count": 435
+  }
+}

@@ -5,7 +5,8 @@
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 ![Powered by](https://img.shields.io/badge/PostgreSQL-16-336791)
-![Visualization](https://img.shields.io/badge/Power%20BI-DAX-2AA5DC)
+![Web app](https://img.shields.io/badge/Next.js-16-000000)
+![UI](https://img.shields.io/badge/React-19%20%C2%B7%20Tailwind%20v4%20%C2%B7%20Recharts-2563EB)
 
 ## Project Overview
 
@@ -13,9 +14,9 @@ This project treats the **Aave V3 Pool** on **Polygon PoS** like a real business
 with stakeholders, requirements, and KPIs — instead of a trading signal. It
 pulls every on-chain interaction with the protocol from the public blockchain,
 builds a relational data warehouse, performs exploratory, customer-level, and
-retention analysis, and delivers a Power BI dashboard plus an executive
-recommendations report. The point is the *business analysis habit*: on-chain
-data is just a (very granular) customer activity log.
+retention analysis, and ships a **web application** with seven analytical pages
+plus an executive recommendations report. The point is the *business analysis
+habit*: on-chain data is just a (very granular) customer activity log.
 
 | | |
 |---|---|
@@ -23,7 +24,8 @@ data is just a (very granular) customer activity log.
 | **Window** | 2026-03-09 → 2026-09-05 (181 days) |
 | **Scale** | 18,981 wallets · 158,916 transactions · 159 contracts · 163 token transfers |
 | **Source** | Etherscan V2 unified API (Polygonscan, public on-chain data) |
-| **Stack** | Python, PostgreSQL, SQL (window functions / CTEs), Power BI + DAX, pandas, seaborn |
+| **Deliverable** | Next.js web app (7 pages) · secondary Power BI report |
+| **Stack** | Python, PostgreSQL, SQL (window functions / CTEs), Next.js 16, React 19, Tailwind v4, Recharts, pandas, seaborn |
 
 ## Key Findings
 
@@ -35,13 +37,37 @@ Three results worth stopping on (full analysis with evidence in [`outputs/report
 
 > 🚨 **Data-model caveat worth knowing:** Aave supplies move as ERC-20 aTokens, so **native POL value is degenerate** at the Pool level (~100% sits in the Pool contract, median tx value = 0). Engagement numbers above are direct ledger counts; the *monetary* KPIs are explicitly flagged as a measurement gap (fixed by recommendation R-3) rather than silently reported as $0.
 
-## Dashboard Preview
+## Web Application
 
-Power BI dashboard, 5 pages (Executive Summary · Customer Intelligence · Retention Analysis · Operations & Cost · Recommendations). Page 1:
+The primary deliverable is a Next.js 16 app in [`webapp/`](webapp) covering the
+same analysis as the original report in seven pages:
 
-![Executive Summary page](outputs/figures/dashboard/blockchain_bi_dashboard_page-0001.png)
+| Page | What it answers |
+|---|---|
+| **Overview** | Peak, decay, concentration, gas and scope in five KPIs plus activity and interaction charts. |
+| **Customer Intelligence** | RFM segment distribution, per-segment frequency, and the top-wallet table. |
+| **Retention Analysis** | Month-over-month cohort matrix, average decay curve, and the month-1 cliff by cohort. |
+| **Operations** | Daily throughput, failure rate, hour-of-day/day-of-week heatmap, top wallets, flash loans and liquidations. |
+| **Analytics** | Function mix (supply / withdraw / borrow / repay), flash-loan and liquidation rates. |
+| **Insights** | All 11 findings and 8 recommendations, verbatim from the report, with evidence paths and confidence. |
+| **System** | Pipeline provenance, the two "active wallet" labeling rules, and all 11 disclosed limitations. |
 
-Other pages: [2 · Customer Intelligence](outputs/figures/dashboard/blockchain_bi_dashboard_page-0002.png) · [3 · Retention Analysis](outputs/figures/dashboard/blockchain_bi_dashboard_page-0003.png) · [4 · Operations & Cost](outputs/figures/dashboard/blockchain_bi_dashboard_page-0004.png) · [5 · Recommendations](outputs/figures/dashboard/blockchain_bi_dashboard_page-0005.png)
+The design system (tokens, type scale, spacing, elevation) is ported from a
+Stitch-generated "Precision Analytical System" spec into Tailwind v4 `@theme`.
+Every monetary figure carries a caveat that links to the System page, because
+native-POL value is degenerate at the Pool level.
+
+Data is exported to 13 static JSON payloads and read from disk during
+`next build` — no database and no runtime fetching, so the app deploys as a
+static site. Regenerate with:
+
+```powershell
+.\venv\Scripts\python.exe src\analysis\export_for_webapp.py
+```
+
+The Power BI report is retained as a secondary desktop artifact — see
+[`dashboard/README.md`](dashboard/README.md). Its `.pbix` is not committed and
+is rebuilt locally from `dashboard/data_extracts/`.
 
 ## Tech Stack
 
@@ -50,7 +76,9 @@ Other pages: [2 · Customer Intelligence](outputs/figures/dashboard/blockchain_b
 | Extraction | Python `requests` · Etherscan V2 API (block-chunked, resumable, rate-limit-safe) |
 | Storage | PostgreSQL 16 (`blockchain_bi`) — `wallets`, `transactions`, `contracts`, `token_transfers` |
 | Analysis | pandas · SQL window functions / CTEs · RFM (NTILE) · cohort retention · seaborn · scipy |
-| Reporting | Jupyter (`notebooks/01_eda.ipynb`) · Power BI Desktop + DAX · Markdown + pandoc/typst PDF |
+| **Web app** | **Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Recharts** |
+| Reporting | Jupyter (`notebooks/01_eda.ipynb`) · Markdown + pandoc/typst PDF |
+| Secondary | Power BI Desktop + DAX (optional, not committed) |
 | Orchestration | Python scripts in `src/` (see run order below) |
 
 ## Architecture / Pipeline
@@ -62,10 +90,12 @@ flowchart LR
     C --> D[(PostgreSQL 16 warehouse)]
     D --> E[EDA notebook: trends · concentration · timing]
     D --> F[RFM segmentation + cohort retention]
-    E --> G[Power BI dashboard - 5 pages + DAX]
+    E --> G[Dashboard extracts + static JSON export]
     F --> G
-    G --> H[Business recommendations report + executive summary PDF]
-    D --> I[KPI queries: data/sql/queries]
+    G --> H[Next.js web app - 7 pages, static build]
+    G -.optional.-> I[Power BI report - desktop only]
+    D --> J[KPI queries: data/sql/queries]
+    H --> K[Business recommendations report + executive summary PDF]
 ```
 
 ## Repo Structure
@@ -86,9 +116,14 @@ blockchain-business-intelligence/
 │   ├── transformation/       # cleaning + load to PostgreSQL
 │   └── analysis/             # EDA notebook builder, RFM, cohorts, dashboard export, PDF
 ├── notebooks/                # notebooks/01_eda.ipynb (executed, with outputs)
-├── dashboard/                # DAX measures, build spec, data extracts, .pbix (local)
+├── webapp/                   # Next.js 16 app — the primary deliverable
+│   ├── app/                  # layout + page (server) and globals.css (Stitch @theme)
+│   ├── components/           # shell (Sidebar/TopBar/Drawer) + the 7 page views
+│   ├── lib/                  # dataset loader, types, formatters, CSV export
+│   └── public/data/          # 13 static JSON payloads read at build time
+├── dashboard/                # optional Power BI: DAX, build spec, data extracts
 └── outputs/
-    ├── figures/              # 11 EDA charts + 5 dashboard page screenshots
+    ├── figures/              # 12 EDA charts (cited as evidence in the findings)
     └── reports/              # business_recommendations.md + executive_summary.pdf
 ```
 
@@ -122,15 +157,29 @@ psql -h 127.0.0.1 -U postgres -d blockchain_bi -f data/sql/schema.sql
 .\venv\Scripts\python.exe src\analysis\cohort_retention.py
 .\venv\Scripts\python.exe src\analysis\export_for_dashboard.py
 
-# 6. Dashboard
-#    Open dashboard/blockchain_bi_dashboard.pbix in Power BI Desktop
-#    (imports the 5 CSVs in dashboard/data_extracts/ — see dashboard/build_spec.md)
+# 6. Web app (primary deliverable) — no database needed, reads static JSON
+cd webapp
+npm install
+npm run dev            # http://localhost:3000
+
+# 7. Optional: Power BI report (desktop only, .pbix not committed)
+#    See dashboard/README.md — import the 5 CSVs in dashboard/data_extracts/
+```
+
+### Regenerating the web app data
+
+The web app reads 13 JSON payloads from `webapp/public/data/`, written from the
+CSV extracts and pipeline logs. No database is required to build or run it:
+
+```powershell
+.\venv\Scripts\python.exe src\analysis\export_for_webapp.py
 ```
 
 **Notes**
 - `load_to_postgres.py --reset` rebuilds tables from scratch.
 - Analysis scripts connect with `jit=off` (documented in `docs/methodology.md`) for local servers missing the LLVM runtime.
 - Raw/processed CSV data is gitignored for size; every artifact is reproducible by the scripts above in the order shown.
+- On Windows PowerShell, use `npm.cmd` / `npx.cmd` instead of `npm` / `npx` if script execution is blocked by policy.
 
 ## Methodology & Limitations
 
@@ -142,6 +191,7 @@ psql -h 127.0.0.1 -U postgres -d blockchain_bi -f data/sql/schema.sql
 - **Data Analysis** — SQL window functions & CTEs (RFM scoring, whale concentration, cohort retention), exploratory analysis with seaborn, statistical correlation (`scipy`), Python ETL pipeline.
 - **Blockchain Domain Knowledge** — wallet/transaction semantics, gas-cost analysis, whale/agent detection, ERC-20 token-transfer handling (spam filtering, decimals), reading native/value vs. aToken positions.
 - **Business Analysis** — business-requirements definition (BR-01…BR-07), stakeholder mapping, KPI framework design (KPI-01…KPI-07), executive reporting with evidence-backed recommendations.
+- **Product Engineering** — a 7-page Next.js 16 / React 19 dashboard on build-time static JSON, a ported 45-token design system into Tailwind v4 `@theme`, responsive layouts (desktop / tablet / mobile with table-to-card collapse), client-side CSV export, and honest data disclosure (dual "active wallet" definitions, a caveat on every monetary figure, all 11 limitations published in-app).
 
 ## License
 

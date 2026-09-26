@@ -1,0 +1,84 @@
+{
+  "source": "docs/limitations.md",
+  "net_effect": "The engagement-side numbers (activity, retention, segments, concentration) are reliable and computed directly from clean ledger data. The value-side numbers are structurally unable to answer monetary questions at Pool level - fixing this is the single highest data priority in the recommendations (R-3).",
+  "limitations": [
+    {
+      "id": "L-1",
+      "title": "Scope: one contract, one chain, one six-month window",
+      "what": "Every transaction against the Aave V3 Pool on Polygon between 2026-03-09 and 2026-09-05 (181 days). September is partial (through 09-05; 716 active wallets).",
+      "why_it_matters": "Findings describe this contract on this chain in this window. They do not generalize to other Aave markets, other chains, or other periods. No forecast is attempted.",
+      "mitigation": "Every number is scoped to this window and the partial September is flagged wherever it is cited."
+    },
+    {
+      "id": "L-2",
+      "title": "Wallet addresses are not people",
+      "what": "'Active wallet' counts distinct addresses, not unique humans. One person can control many wallets; one wallet can be an automated agent.",
+      "why_it_matters": "MAU, segmentation, and retention figures over- or understate the true user base depending on the multi-wallet/agent mix.",
+      "mitigation": "The report uses 'wallet' and 'user' with that caveat in mind; the bot-like timing finding is explicitly hedged at Medium confidence because no wallet-fingerprinting was done."
+    },
+    {
+      "id": "L-3",
+      "title": "Native value is degenerate - the central measurement gap",
+      "what": "Aave positions move as ERC-20 aTokens, not as native POL. Pool-level native value attaches almost entirely to the Pool contract itself (1,065.51 POL received, effectively gas-refund mechanics), so wallets.total_volume and transactions.value_native are ~$0 for real users. Only 38 of 158,916 transactions carry native value; the median transaction value is 0 POL.",
+      "why_it_matters": "Monetary KPIs (KPI-03/04/07), volume-by-segment, and value-based whale lists read near zero and would mislead anyone who takes them at face value.",
+      "mitigation": "Recommended fix (R-3) is function-level decoding of supply/borrow/withdraw/repay calls plus a real-time POL/USD and aToken price reference. Until then value figures are reported as degenerate and the RFM segments are described as R x F driven.",
+      "is_headline": true
+    },
+    {
+      "id": "L-4",
+      "title": "Token transfers are mostly spam and un-priced",
+      "what": "156 of 163 token transfers are unverified spam airdrops. The warehouse stores no token decimals or prices for the remaining transfers.",
+      "why_it_matters": "Token-level value cannot close the monetary gap; spam transfers are correctly excluded from activity and retention, but their parent transactions are not part of the Pool ledger by design.",
+      "mitigation": "Spam is flagged (is_spam) and excluded from monetary fallback and activity; the residual gap is owned by R-3."
+    },
+    {
+      "id": "L-5",
+      "title": "Failed, self, and zero-value transactions are counted",
+      "what": "4,514 of 158,916 transactions (2.84%) have status = 0. Failed, self, and zero-value rows are flagged - never dropped.",
+      "why_it_matters": "Raw activity counts include failed attempts, slightly inflating demand-side numbers.",
+      "mitigation": "They are isolated in flagged_transactions.csv and surfaced as an anomaly/risk input (BR-07) rather than silently hidden."
+    },
+    {
+      "id": "L-6",
+      "title": "Automated / bot activity may inflate the base",
+      "what": "The busiest wallet executed 8,054 transactions; activity clusters at 12:00 UTC on Thursdays with near-zero weekends. The Pool contract is the recipient of every transaction and is set aside only for user-level concentration analysis.",
+      "why_it_matters": "MAU and transaction counts overstate organic retail usage; top-wallet dependency risk is real.",
+      "mitigation": "The timing finding is labeled Medium confidence; bot addresses were not de-duplicated (flagged as future work in R-6)."
+    },
+    {
+      "id": "L-7",
+      "title": "Retention is transaction-based",
+      "what": "A wallet is 'active' in a month only if it transacted. A holder or borrower with no on-chain activity that month is counted as inactive; native value is not a retention signal here.",
+      "why_it_matters": "Month-1 retention (21.1% average) understates a value-holding base that interacts rarely; cohort results are engagement, not deposits.",
+      "mitigation": "The definition is stated in kpi_framework.md (KPI-02) and methodology.md; real deposit-value retention requires R-3."
+    },
+    {
+      "id": "L-8",
+      "title": "Cost figures use a daily price reference, and the ratio is meaningless",
+      "what": "gas_cost_usd applies the daily CoinGecko POL/USD price (100% coverage in window). The gas-as-%-of-value measure divides gas by native value, which is degenerate; the value x gas correlation (r = -0.05, p = 0.78) is reported as non-meaningful.",
+      "why_it_matters": "Absolute cost (~$0.0073/tx, ~$1,158 total) is reliable; any ratio or correlation that depends on native value is not.",
+      "mitigation": "The report says this explicitly (Finding 3.4) and recommends re-measuring fee economics at function level after R-3."
+    },
+    {
+      "id": "L-9",
+      "title": "Data-quality constraints from the V2 API",
+      "what": "token_transfers.transfer_id is a surrogate (tx_hash + '_' + seq) because the V2 API omits logIndex; tokentx parent transactions are not in the Pool ledger; addresses are normalized to lowercase without case-checksum validation.",
+      "why_it_matters": "Minor join/audit friction, no impact on counts.",
+      "mitigation": "Documented in data_dictionary.md; referential integrity is verified on load (0 orphans)."
+    },
+    {
+      "id": "L-10",
+      "title": "Environment and reproducibility dependencies",
+      "what": "The local PostgreSQL server runs in WSL2 and requires jit=off (missing LLVM runtime); fact_transactions.csv is large and gitignored; the .pbix is gitignored.",
+      "why_it_matters": "Full reproduction needs a reachable PostgreSQL instance and the local Power BI files; the GitHub repo carries code + small extracts, not the raw data or the workbook.",
+      "mitigation": "methodology.md section 6 gives the exact run order. The webapp itself needs none of this - it reads committed static JSON."
+    },
+    {
+      "id": "L-11",
+      "title": "No off-chain context",
+      "what": "Price feeds are market references, not user-reported intent; no marketing/financial events, support tickets, or survey data are available to explain why activity moved (e.g. the April 8-14 spike is inferred to be a promotional/airdrop event from on-chain timing alone).",
+      "why_it_matters": "Causal explanations in the reports are hypotheses, not verified business events.",
+      "mitigation": "The findings that rest on inference are labeled Medium confidence and competing explanations are noted (e.g. bot activity in Finding 3.5)."
+    }
+  ]
+}

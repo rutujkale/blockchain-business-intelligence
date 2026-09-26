@@ -1,0 +1,72 @@
+{
+  "chain": "Polygon PoS",
+  "chain_id": 137,
+  "protocol": "Aave V3 Pool",
+  "contract_address": "0x794a61358d6845594f94dc1db02a252b5b4814ad",
+  "contract_label": "0x794a...4814",
+  "api": "Etherscan V2 (Polygonscan) - account.txlist + account.tokentx",
+  "price_feed": "coingecko_pol_usd",
+  "date_range": {
+    "start": "2026-03-09",
+    "end": "2026-09-05"
+  },
+  "block_range": {
+    "start": null,
+    "end": null
+  },
+  "extraction": {
+    "contract": "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    "chain": "polygon",
+    "extraction_timestamp": "2026-09-05T06:46:52.863122+00:00",
+    "date_range_requested": "2026-03-09 -> 2026-09-05",
+    "date_range_actual": "2026-03-09 -> 2026-09-05",
+    "block_range": "83959386 -> 93257179",
+    "transactions_raw": 158916,
+    "token_transfers_raw": 163,
+    "in_progress": false
+  },
+  "cleaning": {
+    "whale_cutoff_economic_value": 826.0999999999979,
+    "whale_percentile": 99.5,
+    "whale_tx_count": 1,
+    "price_coverage_dates": 365,
+    "gas_cost_usd_source": "coingecko_pol_usd",
+    "generated_at": "2026-09-05T12:35:11.262797+00:00",
+    "transactions_raw_rows": 158916,
+    "transactions_clean_rows": 158916,
+    "transfers_clean_rows": 163,
+    "flagged_total_rows": 158916,
+    "flagged_failed": 4514,
+    "flagged_self": 0,
+    "flagged_zero_value": 158878,
+    "tx_duplicate_hashes_removed": 0,
+    "any_failed_txs_dropped": false,
+    "notes": [
+      "Failed, self and zero-value transactions are flagged, never dropped",
+      "value_native/gas amounts in POL (=MATIC)",
+      "Economic volume for Aave moves via ERC-20 transfers, not native value",
+      "Only 38 txs carry native value; whale flag uses native value else max per-tx token-transfer amount, so whales are rare for this contract by design"
+    ]
+  },
+  "warehouse": {
+    "engine": "PostgreSQL 16",
+    "schema": "blockchain_bi",
+    "tables": [
+      "wallets",
+      "transactions",
+      "contracts",
+      "token_transfers"
+    ],
+    "row_counts": {
+      "wallets": 18981,
+      "transactions": 158916,
+      "contracts": 159,
+      "token_transfers": 163
+    }
+  },
+  "webapp": {
+    "framework": "Next.js (App Router) + TypeScript + Tailwind CSS + Recharts",
+    "data_strategy": "Static JSON read at build time - no database, no runtime data fetching",
+    "source_script": "src/analysis/export_for_webapp.py"
+  }
+}

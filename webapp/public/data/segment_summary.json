@@ -1,0 +1,55 @@
+{
+  "total_wallets": 18981,
+  "note": "Monetary is degenerate, so segments are effectively Recency x Frequency driven.",
+  "segments": [
+    {
+      "segment": "Occasional Users",
+      "wallet_count": 8319,
+      "pct_of_wallets": 43.83,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 2.2
+    },
+    {
+      "segment": "Frequent Users",
+      "wallet_count": 3247,
+      "pct_of_wallets": 17.11,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 25.3
+    },
+    {
+      "segment": "High-Value Dormant",
+      "wallet_count": 3010,
+      "pct_of_wallets": 15.86,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 2.5
+    },
+    {
+      "segment": "High-Value Active",
+      "wallet_count": 2029,
+      "pct_of_wallets": 10.69,
+      "pct_of_volume": 100.0,
+      "avg_transactions": 101.8
+    },
+    {
+      "segment": "Dormant Users",
+      "wallet_count": 1662,
+      "pct_of_wallets": 8.76,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 1.7
+    },
+    {
+      "segment": "Emerging Users",
+      "wallet_count": 472,
+      "pct_of_wallets": 2.49,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 1.3
+    },
+    {
+      "segment": "New Users",
+      "wallet_count": 242,
+      "pct_of_wallets": 1.27,
+      "pct_of_volume": 0.0,
+      "avg_transactions": 1.0
+    }
+  ]
+}
