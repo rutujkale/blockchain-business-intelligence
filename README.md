@@ -2,11 +2,14 @@
 
 **Turning on-chain transaction data into customer segmentation, retention analysis, and business recommendations for a DeFi protocol.**
 
+### **[Live dashboard →](https://chainbi-analytics.vercel.app)**
+
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 ![Powered by](https://img.shields.io/badge/PostgreSQL-16-336791)
 ![Web app](https://img.shields.io/badge/Next.js-16-000000)
 ![UI](https://img.shields.io/badge/React-19%20%C2%B7%20Tailwind%20v4%20%C2%B7%20Recharts-2563EB)
+[![Vercel](https://img.shields.io/badge/deployed-Vercel-000000?logo=vercel&logoColor=white)](https://chainbi-analytics.vercel.app)
 
 ## Project Overview
 
@@ -24,7 +27,7 @@ habit*: on-chain data is just a (very granular) customer activity log.
 | **Window** | 2026-03-09 → 2026-09-05 (181 days) |
 | **Scale** | 18,981 wallets · 158,916 transactions · 159 contracts · 163 token transfers |
 | **Source** | Etherscan V2 unified API (Polygonscan, public on-chain data) |
-| **Deliverable** | Next.js web app (7 pages) · secondary Power BI report |
+| **Deliverable** | Next.js web app (7 pages), [live](https://chainbi-analytics.vercel.app) · secondary Power BI report |
 | **Stack** | Python, PostgreSQL, SQL (window functions / CTEs), Next.js 16, React 19, Tailwind v4, Recharts, pandas, seaborn |
 
 ## Key Findings
@@ -39,8 +42,10 @@ Three results worth stopping on (full analysis with evidence in [`outputs/report
 
 ## Web Application
 
-The primary deliverable is a Next.js 16 app in [`webapp/`](webapp) covering the
-same analysis as the original report in seven pages:
+**Running live at <https://chainbi-analytics.vercel.app>**
+
+The primary deliverable is a Next.js 16 app in [`webapp/`](webapp), deployed to
+Vercel, covering the same analysis as the original report in seven pages:
 
 | Page | What it answers |
 |---|---|
