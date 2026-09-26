@@ -52,6 +52,27 @@ same analysis as the original report in seven pages:
 | **Insights** | All 11 findings and 8 recommendations, verbatim from the report, with evidence paths and confidence. |
 | **System** | Pipeline provenance, the two "active wallet" labeling rules, and all 11 disclosed limitations. |
 
+![Overview page of the ChainBI web app](outputs/figures/webapp_overview.png)
+
+<details>
+<summary>More screenshots: wallet explorer and live filtering</summary>
+
+**Wallet Explorer** — click any wallet to see its rank, segment, activity
+window, and recent transactions. Here the function filter is set to
+`withdraw`, so the table shows only matching calls (10 of 10) and names the
+active filter rather than hiding it.
+
+![Wallet Explorer drawer with a withdraw function filter applied](outputs/figures/webapp_wallet_explorer.png)
+
+**Filtering is real, not decorative.** The segment filter below is set to
+`Frequent Users`, which narrows the top-wallet table to 9 of 20 rows and
+shows the active-filter chip. `Reset` and the header's clear-all button both
+restore the full set.
+
+![Top Wallets table filtered to the Frequent Users segment](outputs/figures/webapp_filtered_operations.png)
+
+</details>
+
 The design system (tokens, type scale, spacing, elevation) is ported from a
 Stitch-generated "Precision Analytical System" spec into Tailwind v4 `@theme`.
 Every monetary figure carries a caveat that links to the System page, because
