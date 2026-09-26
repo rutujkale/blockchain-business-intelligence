@@ -216,6 +216,10 @@ venv\Scripts\python.exe src\analysis\export_for_dashboard.py
 venv\Scripts\python.exe src\analysis\build_executive_summary_pdf.py
 ```
 
+For the web app's data, deploy, and the fact that it ships by pushing to
+`main` (there is no working manual CLI deploy path), see
+[README.md → How to Run This Project → Deployment](../README.md#deployment).
+
 ## 7. Artifact map
 
 | Analysis | Primary artifacts |

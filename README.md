@@ -207,6 +207,34 @@ CSV extracts and pipeline logs. No database is required to build or run it:
 - Raw/processed CSV data is gitignored for size; every artifact is reproducible by the scripts above in the order shown.
 - On Windows PowerShell, use `npm.cmd` / `npx.cmd` instead of `npm` / `npx` if script execution is blocked by policy.
 
+### Deployment
+
+The web app is deployed to Vercel as
+[`chainbi-analytics`](https://chainbi-analytics.vercel.app), built from this
+repository. **Pushes to `main` auto-deploy — that is the only working
+deployment path.**
+
+There is no working manual CLI deploy from this repo layout, and the trap is
+worth knowing about. The Vercel project's Root Directory is `webapp`, which is
+*required*: Git-triggered builds resolve the app relative to the repo root, and
+the repo root is a Python project with no `package.json`, so without it every
+push fails. But the Vercel CLI applies that same Root Directory to its own
+upload root, so `vercel --prod` fails both ways:
+
+| How you run it | What you get |
+|---|---|
+| `cd webapp` then `npx vercel --prod` | `Error: The specified Root Directory "webapp" does not exist` |
+| `npx vercel --prod --cwd webapp` from the repo root | `Error: ...\webapp\webapp does not exist` |
+
+Both are configuration errors, not transient failures — retrying will not help.
+**To redeploy, push a commit.** Change what ships by editing `webapp/` and
+pushing; if a build comes out wrong, fix it and push again.
+
+One more trap worth naming: do not follow any "Deploy on Vercel" boilerplate
+that points at `vercel.com/new`. That link creates a *second, disconnected*
+Vercel project instead of deploying this one, and the resulting site would
+never receive your data updates — it fails quietly rather than erroring.
+
 ## Methodology & Limitations
 
 - **[`docs/methodology.md`](docs/methodology.md)** — data source, extraction method, cleaning rules, RFM scoring logic, cohort definitions, statistical methods, and the exact run order / artifact map.
