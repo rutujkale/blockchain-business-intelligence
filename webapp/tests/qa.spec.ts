@@ -60,19 +60,50 @@ async function gotoPage(page: Page, label: string) {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(label);
 }
 
-/** Opens the controlled filter sheet via the header's `tune` button. */
+/**
+ * The radio's accessible name is the whole wrapping label ("Dormant Users
+ * 1,662"), so identity is asserted on `value` instead. That is also the more
+ * meaningful assertion: `value` is exactly the key the filter predicate
+ * compares against `wallet.segment`, so a renamed or invented option fails
+ * here rather than silently matching nothing downstream.
+ */
 async function openFilters(page: Page) {
   await page
     .locator("header button", { has: page.locator('span:text-is("tune")') })
     .click();
-  await expect(page.getByRole("dialog", { name: "Filters" })).toBeVisible();
+  // The sheet is always in the DOM; `pointer-events-none` is how it marks
+  // itself closed, so that class is the real open/closed signal.
+  await expect(page.getByRole("dialog", { name: "Filters" })).not.toHaveClass(
+    /pointer-events-none/,
+  );
 }
 
 async function applySegment(page: Page, segment: string) {
   await openFilters(page);
-  await page.getByRole("radio", { name: segment, exact: true }).check();
+  await page
+    .locator(`input[name="segment"][value="${segment}"]`)
+    .check();
   await page.getByRole("button", { name: "Apply Filters" }).click();
-  await expect(page.getByRole("dialog", { name: "Filters" })).toBeHidden();
+  await expect(page.getByRole("dialog", { name: "Filters" })).toHaveClass(
+    /pointer-events-none/,
+  );
+}
+
+/** Opens the Wallet Explorer drawer. The drawer is modal, so the header is
+ *  not reachable while it is open — close it before touching the filters. */
+async function openExplorer(page: Page) {
+  const menu = page.getByRole("button", { name: "Open navigation" });
+  if (await menu.isVisible()) await menu.click();
+  await page
+    .getByRole("navigation")
+    .getByRole("button", { name: /Wallet Explorer/ })
+    .click();
+  await expect(page.getByRole("dialog", { name: "Wallet explorer" })).toBeVisible();
+}
+
+async function closeExplorer(page: Page) {
+  await page.getByRole("button", { name: "Close wallet explorer" }).click();
+  await expect(page.getByRole("dialog", { name: "Wallet explorer" })).toHaveCount(0);
 }
 
 function trackErrors(page: Page): string[] {
@@ -106,15 +137,22 @@ test.describe("segment filter", () => {
     await page.goto("/");
     await openFilters(page);
 
-    await expect(page.getByRole("radio")).toHaveCount(segments.length + 1 + 5);
+    // 7 segments + "All segments", and 5 functions + "All functions". Counting
+    // the two groups separately keeps this honest if either list gains a row.
+    await expect(page.locator('input[name="segment"]')).toHaveCount(segments.length + 1);
+    await expect(page.locator('input[name="function"]')).toHaveCount(6);
 
     for (const row of segments) {
-      const input = page.getByRole("radio", { name: row.segment, exact: true });
+      const input = page.locator(`input[name="segment"][value="${row.segment}"]`);
       await expect(input, `"${row.segment}" is not offered as a filter option`).toHaveCount(1);
-      const count = page
-        .locator(`label:has(input[value="${row.segment}"]) span.font-code-sm`);
+      const count = page.locator(
+        `label:has(input[name="segment"][value="${row.segment}"]) span.font-code-sm`,
+      );
       await expect(count, `count for "${row.segment}"`).toHaveText(n(row.wallet_count));
-      expect(Number(row.wallet_count), `"${row.segment}" is non-empty in the payload`).toBeGreaterThan(0);
+      expect(
+        Number(row.wallet_count),
+        `"${row.segment}" is non-empty in the payload`,
+      ).toBeGreaterThan(0);
     }
   });
 
@@ -124,8 +162,18 @@ test.describe("segment filter", () => {
     expect(expected).toBeGreaterThan(0);
     await applySegment(page, "Frequent Users");
     await gotoPage(page, "Operations");
+
+    // The summary is present at every width; below md the rows collapse to
+    // cards, so only assert the row count when the table is actually shown.
     await expect(page.getByText(`Showing 1–${expected} of ${expected} wallets`)).toBeVisible();
-    await expect(page.getByRole("row")).toHaveCount(expected + 1);
+    const table = page.getByRole("table");
+    if (await table.isVisible()) {
+      await expect(page.getByRole("row")).toHaveCount(expected + 1);
+    }
+    // Every surviving row must really be in the selected segment.
+    for (const cell of await page.locator("table tbody tr").all()) {
+      expect(await cell.innerText()).toContain("Frequent Users");
+    }
   });
 
   test("a segment absent from the top wallets says so explicitly", async ({ page }) => {
@@ -144,24 +192,38 @@ test.describe("segment filter", () => {
     }
   });
 
+  test("the Currently Active KPI actually excludes what it claims", async ({ page }) => {
+    await page.goto("/");
+    await gotoPage(page, "Customer Intelligence");
+    const total = segments.reduce((a, r) => a + r.wallet_count, 0);
+    const excluded = segments
+      .filter((r) => ["New Users", "Dormant Users"].includes(r.segment))
+      .reduce((a, r) => a + r.wallet_count, 0);
+    expect(excluded, "New and Dormant are non-empty").toBeGreaterThan(0);
+    await expect(page.getByText("Currently Active")).toBeVisible();
+    // A card labelled "excludes New and Dormant" that sums every segment is
+    // indistinguishable from the total, which is how 18,981 shipped.
+    await expect(
+      page
+        .getByText("Currently Active")
+        .locator("xpath=../following-sibling::*[1]"),
+    ).toHaveText(n(total - excluded));
+  });
+
   test("the drawer list follows the same segment predicate", async ({ page }) => {
     await page.goto("/");
-    const menu = page.getByRole("button", { name: "Open navigation" });
-    if (await menu.isVisible()) await menu.click();
-    await page
-      .getByRole("navigation")
-      .getByRole("button", { name: /Wallet Explorer/ })
-      .click();
-    await expect(page.getByRole("dialog", { name: "Wallet explorer" })).toBeVisible();
-    await expect(page.getByText(`of ${walletDetail.length} highest-activity wallets`)).toBeVisible();
-
     const absent = segments
       .map((s) => s.segment)
       .filter((s) => !walletDetail.some((w) => w.segment === s));
     expect(absent.length, "at least one segment has no drawer wallets").toBeGreaterThan(0);
+
+    await openExplorer(page);
+    await expect(page.getByText(`of ${walletDetail.length} highest-activity wallets`)).toBeVisible();
+
     for (const segment of absent) {
+      await closeExplorer(page);
       await applySegment(page, segment);
-      await page.getByRole("button", { name: /Wallet Explorer/ }).first().click();
+      await openExplorer(page);
       await expect(page.getByText(`No wallets in the ${segment} segment.`)).toBeVisible();
     }
   });
