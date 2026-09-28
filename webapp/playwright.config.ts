@@ -6,12 +6,14 @@ const PORT = 3100;
  * Minimal QA harness: 7 pages x 3 viewports, plus the filter / drawer /
  * export interactions that the static HTML cannot prove.
  *
- * `next start` needs a production build, so the harness builds first. The
- * build uses `--webpack`: the default Turbopack builder resolves
- * `next/font/google` through `@vercel/turbopack-next`, which is not in
- * package-lock.json, so it cannot resolve outside a Vercel build. Vercel
- * itself builds this app with Turbopack and is unaffected.
+ * `next start` needs a production build, so the harness builds first, into
+ * its own `distDir` (see next.config.ts). The build uses `--webpack`, which
+ * is the builder that resolves `next/font/google` in this repo. Sharing the
+ * default `.next` with `npm run build` makes the two contaminate each other:
+ * Turbopack then fails on the webpack artifacts with a resolution error for a
+ * `@vercel/turbopack-next` package that does not exist on npm.
  */
+const DIST = ".next-qa";
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
@@ -23,7 +25,8 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:${PORT}`,
   },
   webServer: {
-    command: `npx.cmd next build --webpack && npx.cmd next start --port ${PORT}`,
+    command: `npx next build --webpack && npx next start --port ${PORT}`,
+    env: { NEXT_DIST_DIR: DIST },
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: true,
     timeout: 300_000,

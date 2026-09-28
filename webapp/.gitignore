@@ -19,7 +19,10 @@
 
 # next.js
 /.next/
+# separate build dir for the QA harness, so it cannot contaminate /.next/
+/.next-qa/
 /out/
+
 
 # production
 /build
