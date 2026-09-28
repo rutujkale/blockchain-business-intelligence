@@ -77,12 +77,19 @@ export function SidebarFooter({
     <div className="pt-space-sm border-t border-outline-variant flex flex-col gap-2.5">
       <div className="flex items-center justify-between px-2 py-1.5 rounded-lg bg-surface-container-low">
         <div className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary-container opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-tertiary" />
+          {/*
+            A static JSON snapshot baked at build time. A pulsing green dot
+            and "Healthy" described a live pipeline that does not exist: the
+            payload cannot change until the site is rebuilt, so the dot would
+            animate over stale data indefinitely. Says what is actually true
+            instead, and the date is read from the payload rather than
+            hard-coded so it cannot go stale against the data.
+          */}
+          <span className="material-symbols-outlined text-[14px] text-outline" aria-hidden="true">
+            inventory_2
           </span>
-          <span className="font-label-sm text-label-sm text-tertiary font-semibold">
-            Data Pipeline Healthy
+          <span className="font-label-sm text-label-sm text-outline">
+            Data as of {longDate(String(meta.date_range.end))}
           </span>
         </div>
       </div>

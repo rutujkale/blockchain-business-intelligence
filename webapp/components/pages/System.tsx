@@ -24,12 +24,19 @@ export default function SystemPage({ data }: { data: Dataset }) {
   return (
     <div className="flex flex-col gap-gutter-lg">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+        {/*
+          Same false liveness as the sidebar badge, and this is the page a
+          reader checks to decide how much to trust the numbers. "Healthy"
+          with a green "Verified" chip described a running pipeline; the
+          data is a static JSON snapshot that cannot change until a rebuild.
+          Now states the snapshot date, read from the payload so it cannot
+          drift from the data it describes.
+        */}
         <KpiCard
           label="Data Pipeline"
-          value="Healthy"
-          icon="check_circle"
-          hint="Static JSON at build time"
-          badge={{ text: "Verified", tone: "good" }}
+          value="Snapshot"
+          icon="inventory_2"
+          hint={`Static JSON, as of ${longDate(String(meta.date_range.end))}`}
         />
         <KpiCard
           label="Rows In"
