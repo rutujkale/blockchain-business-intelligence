@@ -5,16 +5,6 @@ import type { SegmentRow } from "@/lib/types";
 import { int } from "@/lib/format";
 import { DEFAULT_FILTERS, type Filters } from "./WalletDrawer";
 
-const SEGMENTS = [
-  "Occasional Users",
-  "Frequent Users",
-  "High-Value Active",
-  "High-Value Dormant",
-  "Dormant",
-  "Emerging",
-  "New",
-];
-
 const FUNCS = ["supply", "withdraw", "borrow", "repay", "Other"];
 
 export default function FilterModal({
@@ -48,6 +38,15 @@ export default function FilterModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  /**
+   * The option list is the payload's own `segment` values, in payload order.
+   * Hardcoding a parallel list is what broke this: three of the options were
+   * the bare heads ("Dormant", "Emerging", "New") while the payload keys them
+   * "Dormant Users", "Emerging Users" and "New Users", so the count lookup
+   * missed and the applied filter matched no wallet. Deriving both the label
+   * and the count from one source keeps them from drifting again.
+   */
+  const segmentNames = segments.map((s) => s.segment);
   const segmentCounts = new Map(segments.map((s) => [s.segment, s.wallet_count]));
 
   return (
@@ -96,7 +95,7 @@ export default function FilterModal({
               RFM Segment
             </legend>
             <div className="flex flex-col gap-1">
-              {["All segments", ...SEGMENTS].map((s) => (
+              {["All segments", ...segmentNames].map((s) => (
                 <label
                   key={s}
                   className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-body-sm text-on-surface hover:bg-surface-container-low cursor-pointer"

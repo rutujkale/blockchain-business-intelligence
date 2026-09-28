@@ -21,7 +21,12 @@ export default function CustomerIntelligencePage({ data }: { data: Dataset }) {
   const { segments, kpi, topWallets } = data;
   const rows = segments.segments;
   const maxCount = Math.max(...rows.map((r) => r.wallet_count));
-  const activeSegments = rows.filter((r) => !["New", "Dormant"].includes(r.segment));
+  // Keys must be the payload's own `segment` values. The bare heads ("New",
+  // "Dormant") match nothing here, which silently summed all 18,981 wallets
+  // into a card labelled "Currently Active / Excludes New and Dormant".
+  const activeSegments = rows.filter(
+    (r) => !["New Users", "Dormant Users"].includes(r.segment),
+  );
   const activeWallets = activeSegments.reduce((a, r) => a + r.wallet_count, 0);
 
   const sorted = [...rows].sort((a, b) => b.wallet_count - a.wallet_count);
