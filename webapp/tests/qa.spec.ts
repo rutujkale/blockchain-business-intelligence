@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
+import type { PipelineMeta } from "@/lib/types";
 
 /**
  * Expectations are read from the payloads at run time, never hardcoded, so a
@@ -298,6 +299,31 @@ test.describe("content honesty", () => {
     await gotoPage(page, "Operations");
     await expect(page.getByText(total, { exact: true }).first()).toBeVisible();
     await expect(page.getByText(`${money(kpi.avg_gas_cost_usd, 4)}/tx`)).toBeVisible();
+  });
+
+  test("provenance figures are not silently zero", async ({ page }) => {
+    await page.goto("/");
+    await gotoPage(page, "System");
+    const meta = payload<PipelineMeta>("pipeline_meta.json");
+    const e = meta.extraction as Record<string, string | number | boolean>;
+    const c = meta.cleaning as Record<string, string | number | boolean>;
+    expect(Number(e.transactions_raw)).toBeGreaterThan(0);
+    expect(Number(c.transactions_clean_rows)).toBeGreaterThan(0);
+    expect(String(e.block_range)).toMatch(/\d/);
+    // Reading a key that does not exist yields 0, and `?? 0` hides it. A
+    // "0" anywhere in provenance means the field name drifted, not that the
+    // pipeline did nothing.
+    await expect(page.getByText("Rows In")).toBeVisible();
+    await expect(
+      page.getByText("Rows In").locator("xpath=../following-sibling::*[1]"),
+    ).toHaveText(n(Number(e.transactions_raw)));
+    await expect(
+      page.getByText("Rows Cleaned").locator("xpath=../following-sibling::*[1]"),
+    ).toHaveText(n(Number(c.transactions_clean_rows)));
+    // Rendered twice: once in Pipeline Provenance, once in the generic
+    // Extraction key dump. Pre-existing redundancy, not introduced here.
+    await expect(page.getByText(String(e.block_range)).first()).toBeVisible();
+    await expect(page.getByText(/0\s*—\s*0/)).toHaveCount(0);
   });
 
   test("contracts card is labelled from the data, not an assumption", async ({ page }) => {

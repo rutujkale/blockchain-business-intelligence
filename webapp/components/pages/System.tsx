@@ -38,15 +38,22 @@ export default function SystemPage({ data }: { data: Dataset }) {
           icon="inventory_2"
           hint={`Static JSON, as of ${longDate(String(meta.date_range.end))}`}
         />
+        {/*
+          `rows_extracted` and `rows_cleaned` are not keys in
+          pipeline_meta.json. `?? 0` swallowed the miss, so both cards read
+          "0" on the page whose entire job is to show where the data came
+          from. These are the real keys: extraction.transactions_raw and
+          cleaning.transactions_clean_rows.
+        */}
         <KpiCard
           label="Rows In"
-          value={int(Number(e.rows_extracted ?? 0))}
+          value={int(Number(e.transactions_raw ?? 0))}
           icon="download"
           hint="Raw extraction"
         />
         <KpiCard
           label="Rows Cleaned"
-          value={int(Number(c.rows_cleaned ?? 0))}
+          value={int(Number(c.transactions_clean_rows ?? 0))}
           icon="cleaning_services"
           hint="After validation"
         />
@@ -70,7 +77,12 @@ export default function SystemPage({ data }: { data: Dataset }) {
             <Row label="API" value={meta.api} />
             <Row label="Price feed" value={meta.price_feed} />
             <Row label="Date range" value={`${longDate(String(meta.date_range.start))} — ${longDate(String(meta.date_range.end))}`} />
-            <Row label="Block range" value={`${int(Number(meta.block_range.start))} — ${int(Number(meta.block_range.end))}`} />
+            {/*
+              block_range.start/end are both null in the payload, and
+              Number(null) is 0, so this row rendered "0 — 0". The extracted
+              range is recorded once, as a string, under extraction.
+            */}
+            <Row label="Block range" value={String(e.block_range ?? "—")} />
           </div>
           <div className="px-space-lg pb-space-lg">
             <Address href={`https://polygonscan.com/address/${meta.contract_address}`} className="text-primary hover:underline">
