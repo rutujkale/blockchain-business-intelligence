@@ -80,11 +80,13 @@ export default function OverviewPage({
           badge={{ text: `${pct(kpi.failed_tx_pct)} failed`, tone: "bad" }}
         />
         <KpiCard
-          label="Active Contracts"
+          label="Contracts Observed"
           value={int(kpi.total_contracts)}
           icon="code_blocks"
-          hint="Contracts observed"
-          badge={{ text: "Pool / Oracle", tone: "neutral" }}
+          // 19 rows in contracts_metadata.csv, 7 verified; the 140 contracts
+          // the loader adds from token transfers are hard-coded verified=false
+          // (load_to_postgres.py). 7 + 152 = 159 = kpi.total_contracts.
+          hint="7 verified · 152 unverified"
         />
         <KpiCard
           label="Month-1 Retention"
