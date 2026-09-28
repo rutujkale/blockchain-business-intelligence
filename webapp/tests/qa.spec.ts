@@ -304,10 +304,17 @@ test.describe("content honesty", () => {
     await page.goto("/");
     await openFilters(page);
     await expect(page.getByText(/recency and frequency/i).first()).toBeVisible();
+    await page.keyboard.press("Escape");
     for (const label of ["Customer Intelligence", "Operations"] as const) {
-      await page.keyboard.press("Escape");
       await gotoPage(page, label);
       await expect(page.getByText(/recency and frequency/i).first()).toBeVisible();
     }
+    // The drawer must disclose it in both of its list states.
+    await openExplorer(page);
+    await expect(page.getByText(/recency and frequency/i).first()).toBeVisible();
+    await closeExplorer(page);
+    await applySegment(page, "New Users");
+    await openExplorer(page);
+    await expect(page.getByText(/recency and frequency/i).first()).toBeVisible();
   });
 });

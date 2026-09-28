@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { SegmentRow } from "@/lib/types";
 import { int } from "@/lib/format";
 import { DEFAULT_FILTERS, type Filters } from "./WalletDrawer";
+import { Caveat, SEGMENT_CAVEAT } from "./ui";
 
 const FUNCS = ["supply", "withdraw", "borrow", "repay", "Other"];
 
@@ -118,6 +119,9 @@ export default function FilterModal({
                   )}
                 </label>
               ))}
+            </div>
+            <div className="mt-2">
+              <Caveat>{SEGMENT_CAVEAT}</Caveat>
             </div>
           </fieldset>
 

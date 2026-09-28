@@ -181,6 +181,18 @@ export function Caveat({
   );
 }
 
+/**
+ * The one sentence that keeps a segment count honest. Segment membership is
+ * decided by recency and frequency alone, so a wallet can carry a "High-Value
+ * Active" label while contributing almost no monetary value at the Pool level
+ * — the site shows these segments as if the value ranked them. It applies
+ * wherever segments are shown or filtered, so the phrasing cannot drift
+ * between the filter sheet, the segment charts, the top-wallets table and the
+ * wallet drawer.
+ */
+export const SEGMENT_CAVEAT =
+  "Segment membership is driven by recency and frequency; monetary value is degenerate at the Pool level.";
+
 export function Stat({
   label,
   value,

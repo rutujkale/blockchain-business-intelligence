@@ -24,7 +24,16 @@ import {
 } from "@/lib/format";
 import { AXIS, ChartBox, ChartTooltip, GRID, heatScale } from "../chart-kit";
 import { DEFAULT_FILTERS, type Filters } from "../WalletDrawer";
-import { Address, Caveat, Card, CardFooter, CardHeader, Chip, KpiCard } from "../ui";
+import {
+  Address,
+  Caveat,
+  Card,
+  CardFooter,
+  CardHeader,
+  Chip,
+  KpiCard,
+  SEGMENT_CAVEAT,
+} from "../ui";
 
 const PAGE_SIZE = 10;
 
@@ -424,14 +433,17 @@ export default function OperationsPage({
         )}
 
         <CardFooter>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <Caveat onNavigate={onGoToSystem}>
-              The Pool contract is excluded here and shown separately.
-            </Caveat>
-            <span className="font-code-sm text-code-sm text-outline">
-              Total volume {dec2(topWallets.protocol_contract.total_volume_pol)} POL concentrated in
-              Pool
-            </span>
+          <div className="flex flex-col gap-2">
+            <Caveat onNavigate={onGoToSystem}>{SEGMENT_CAVEAT}</Caveat>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <Caveat onNavigate={onGoToSystem}>
+                The Pool contract is excluded here and shown separately.
+              </Caveat>
+              <span className="font-code-sm text-code-sm text-outline">
+                Total volume {dec2(topWallets.protocol_contract.total_volume_pol)} POL concentrated
+                in Pool
+              </span>
+            </div>
           </div>
         </CardFooter>
       </Card>

@@ -261,7 +261,9 @@ export default function Dashboard({ data }: { data: Dataset }) {
               onOpenWallet={() => openWallet()}
             />
           )}
-          {page === "customer-intelligence" && <CustomerIntelligence data={data} />}
+          {page === "customer-intelligence" && (
+            <CustomerIntelligence data={data} onGoToSystem={() => navigate("system")} />
+          )}
           {page === "retention" && <Retention data={data} />}
           {page === "operations" && (
             <Operations
@@ -304,6 +306,7 @@ export default function Dashboard({ data }: { data: Dataset }) {
           setFilters((f) => ({ ...f, segment: DEFAULT_FILTERS.segment }))
         }
         onToast={showToast}
+        onGoToSystem={() => navigate("system")}
       />
 
       <FilterModal

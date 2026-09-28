@@ -15,9 +15,15 @@ import {
 import type { Dataset } from "@/lib/dataset";
 import { CHART_COLORS, compact, dec1, int, pct } from "@/lib/format";
 import { AXIS, ChartBox, ChartTooltip, GRID, Legend } from "../chart-kit";
-import { Card, CardFooter, CardHeader, Chip, KpiCard } from "../ui";
+import { Card, CardFooter, CardHeader, Caveat, Chip, KpiCard, SEGMENT_CAVEAT } from "../ui";
 
-export default function CustomerIntelligencePage({ data }: { data: Dataset }) {
+export default function CustomerIntelligencePage({
+  data,
+  onGoToSystem,
+}: {
+  data: Dataset;
+  onGoToSystem: () => void;
+}) {
   const { segments, kpi, topWallets } = data;
   const rows = segments.segments;
   const maxCount = Math.max(...rows.map((r) => r.wallet_count));
@@ -140,6 +146,9 @@ export default function CustomerIntelligencePage({ data }: { data: Dataset }) {
               <span className="font-code-sm text-code-sm text-on-surface font-semibold">
                 Recency x Frequency
               </span>
+            </div>
+            <div className="mt-2">
+              <Caveat onNavigate={onGoToSystem}>{SEGMENT_CAVEAT}</Caveat>
             </div>
           </CardFooter>
         </Card>

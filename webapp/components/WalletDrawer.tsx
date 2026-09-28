@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { WalletDetail } from "@/lib/types";
 import { dec6, int, longDate, timestampLabel } from "@/lib/format";
-import { Address, Card, Mono, Stat } from "./ui";
+import { Address, Card, Caveat, Mono, SEGMENT_CAVEAT, Stat } from "./ui";
 
 export interface Filters {
   segment: string;
@@ -29,6 +29,7 @@ export default function WalletDrawer({
   onClose,
   onClearSegment,
   onToast,
+  onGoToSystem,
 }: {
   detail: WalletDetail;
   open: boolean;
@@ -38,6 +39,7 @@ export default function WalletDrawer({
   onClose: () => void;
   onClearSegment: () => void;
   onToast: (msg: string) => void;
+  onGoToSystem: () => void;
 }) {
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -298,6 +300,7 @@ export default function WalletDrawer({
                   </button>
                 </p>
               ) : (
+
                 <ul className="flex flex-col gap-1 -mx-1">
                   {wallets.map((w) => (
                     <li key={w.address} className="flex items-center gap-1">
@@ -343,6 +346,11 @@ export default function WalletDrawer({
                   ))}
                 </ul>
               )}
+              {/* Sits outside the ternary so the disclosure is present in both
+                  the populated and the empty state, not just one of them. */}
+              <p className="mt-3 border-t border-outline-variant/40 pt-3">
+                <Caveat onNavigate={onGoToSystem}>{SEGMENT_CAVEAT}</Caveat>
+              </p>
             </>
           )}
         </div>
