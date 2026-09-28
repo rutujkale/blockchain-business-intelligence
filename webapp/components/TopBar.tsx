@@ -24,8 +24,6 @@ export default function TopBar({
   activeFilterCount,
   onOpenFilters,
   onClearFilters,
-  onRefresh,
-  refreshing,
   exports,
   onOpenNav,
 }: {
@@ -34,8 +32,6 @@ export default function TopBar({
   activeFilterCount: number;
   onOpenFilters: () => void;
   onClearFilters: () => void;
-  onRefresh: () => void;
-  refreshing: boolean;
   exports: ExportItem[];
   onOpenNav: () => void;
 }) {
@@ -123,21 +119,14 @@ export default function TopBar({
             </span>
           </button>
         )}
-        <button
-          type="button"
-          onClick={onRefresh}
-          aria-label="Reload data"
-          className="p-1.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-outline hover:text-on-surface transition-all duration-150 active:scale-[0.98]"
-        >
-          <span
-            className={`material-symbols-outlined text-[18px] ${
-              refreshing ? "animate-spin" : ""
-            }`}
-            aria-hidden="true"
-          >
-            refresh
-          </span>
-        </button>
+        {/*
+          The "Reload data" button is gone. It could not reload anything: the
+          payloads are read at build time, so the handler only spun for 700ms
+          and then toasted the very fact that there was nothing to reload. A
+          control that performs no work is worse than no control, because it
+          invites the reader to believe the numbers are live. The static
+          snapshot date in the sidebar carries that information instead.
+        */}
 
         <div className="relative" ref={menuRef}>
           <button

@@ -23,6 +23,7 @@ import {
   monthTick,
   pct,
   shortMonthLabel,
+  thousands,
 } from "@/lib/format";
 import { AXIS, ChartBox, ChartTooltip, GRID, Legend } from "../chart-kit";
 import { Caveat, Card, CardFooter, CardHeader, Chip, KpiCard } from "../ui";
@@ -421,7 +422,8 @@ export default function OverviewPage({
       </div>
 
       <p className="font-body-sm text-body-sm text-outline">
-        All figures computed from the clean transaction ledger. {kpi.whale_definition}
+        All figures computed from the clean transaction ledger.{" "}
+        {thousands(kpi.whale_definition)}
       </p>
     </div>
   );

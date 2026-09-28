@@ -26,7 +26,6 @@ export default function Dashboard({ data }: { data: Dataset }) {
   const [drawerAddress, setDrawerAddress] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [toast, setToast] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const showToast = useCallback((msg: string) => setToast(msg), []);
 
@@ -239,16 +238,6 @@ export default function Dashboard({ data }: { data: Dataset }) {
           activeFilterCount={activeFilterCount}
           onOpenFilters={() => setFiltersOpen(true)}
           onClearFilters={() => setFilters(DEFAULT_FILTERS)}
-          onRefresh={() => {
-            setRefreshing(true);
-            setTimeout(() => {
-              setRefreshing(false);
-              showToast(
-                `Data is static — ${int(kpi.total_transactions)} transactions baked at build time`,
-              );
-            }, 700);
-          }}
-          refreshing={refreshing}
           exports={exports}
           onOpenNav={() => setNavOpen(true)}
         />

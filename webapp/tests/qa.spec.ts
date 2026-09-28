@@ -240,6 +240,13 @@ test.describe("segment filter", () => {
 });
 
 test.describe("export", () => {
+  test("there is no control that pretends to reload baked data", async ({ page }) => {
+    await page.goto("/");
+    // The payloads are read at build time. A "reload" control can only ever
+    // spin and toast that nothing was reloaded, which reads as a live feed.
+    await expect(page.getByRole("button", { name: /reload|refresh/i })).toHaveCount(0);
+  });
+
   test("the Export menu offers real CSV exports", async ({ page }) => {
     await page.goto("/");
     const button = page

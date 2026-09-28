@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dataset } from "@/lib/dataset";
-import { int, longDate } from "@/lib/format";
+import { int, longDate, thousands } from "@/lib/format";
 import { Address, Card, CardHeader, Chip, KpiCard } from "../ui";
 
 function Row({ label, value }: { label: string; value: string | number }) {
@@ -229,7 +229,9 @@ export default function SystemPage({ data }: { data: Dataset }) {
             <div className="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-1">
               Whale
             </div>
-            <p className="font-body-sm text-body-sm text-on-surface-variant">{kpi.whale_definition}</p>
+            <p className="font-body-sm text-body-sm text-on-surface-variant">
+              {thousands(kpi.whale_definition)}
+            </p>
           </div>
           <div>
             <div className="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-1">

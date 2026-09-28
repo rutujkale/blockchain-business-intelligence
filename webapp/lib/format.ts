@@ -55,6 +55,17 @@ export function compact(n: number): string {
   return int(n);
 }
 
+/**
+ * Adds thousands separators to the bare integers embedded in prose that comes
+ * from a payload, e.g. kpi_summary.json's `whale_definition` string, which
+ * reads "1% of 18968 distinct senders" while every figure around it is
+ * grouped. Runs of four or more digits only, so hex addresses, dates and
+ * block numbers inside a sentence are left alone.
+ */
+export function thousands(text: string): string {
+  return text.replace(/\d{4,}(?![,\d])/g, (run) => int(Number(run)));
+}
+
 const MONTHS = [
   "Jan",
   "Feb",

@@ -13,7 +13,7 @@ import {
   YAxis,
 } from "recharts";
 import type { Dataset } from "@/lib/dataset";
-import { CHART_COLORS, compact, dec1, int, pct } from "@/lib/format";
+import { CHART_COLORS, compact, dec1, int, pct, thousands } from "@/lib/format";
 import { AXIS, ChartBox, ChartTooltip, GRID, Legend } from "../chart-kit";
 import { Card, CardFooter, CardHeader, Caveat, Chip, KpiCard, SEGMENT_CAVEAT } from "../ui";
 
@@ -270,7 +270,7 @@ export default function CustomerIntelligencePage({
       </Card>
 
       <p className="font-body-sm text-body-sm text-outline">
-        Whale definition used across the app: {kpi.whale_definition}
+        Whale definition used across the app: {thousands(kpi.whale_definition)}
       </p>
     </div>
   );
