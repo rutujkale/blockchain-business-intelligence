@@ -31,6 +31,7 @@ const kpi = payload<{
   total_contracts: number;
   total_transactions: number;
   avg_gas_cost_usd: number;
+  total_gas_cost_usd: number;
   whale_definition: string;
 }>("kpi_summary.json");
 const contractsMeta = readFileSync(
@@ -49,6 +50,14 @@ const PAGES = [
 ] as const;
 
 const n = (v: number) => new Intl.NumberFormat("en-US").format(v);
+
+/** Mirrors the app's `decN` money formatting: grouped integer part, fixed
+ *  fractional part. Grouping is applied to the integer part only, so 0.0073
+ *  stays "0.0073" rather than becoming "0,073". */
+const money = (v: number, dp: number) => {
+  const [whole, frac = ""] = v.toFixed(dp).split(".");
+  return `$${n(Number(whole))}${frac ? `.${frac}` : ""}`;
+};
 
 async function gotoPage(page: Page, label: string) {
   const menu = page.getByRole("button", { name: "Open navigation" });
@@ -274,7 +283,21 @@ test.describe("content honesty", () => {
       .locator("dt", { hasText: "Avg gas / tx" })
       .locator("xpath=following-sibling::dd[1]")
       .innerText();
-    expect(shown.trim()).toBe(`$${kpi.avg_gas_cost_usd.toFixed(4)}`);
+    expect(shown.trim()).toBe(money(kpi.avg_gas_cost_usd, 4));
+  });
+
+  test("total gas is not truncated to a whole dollar", async ({ page }) => {
+    await page.goto("/");
+    const total = money(kpi.total_gas_cost_usd, 2);
+    // `int()` used to render this as "$1", which is a 99.9% understatement
+    // of the real figure rather than a rounding of it.
+    expect(Number(kpi.total_gas_cost_usd), "total gas is not under a dollar").toBeGreaterThan(1);
+    await expect(page.getByText("Total gas").locator("xpath=following-sibling::dd[1]")).toHaveText(
+      total,
+    );
+    await gotoPage(page, "Operations");
+    await expect(page.getByText(total, { exact: true }).first()).toBeVisible();
+    await expect(page.getByText(`${money(kpi.avg_gas_cost_usd, 4)}/tx`)).toBeVisible();
   });
 
   test("contracts card is labelled from the data, not an assumption", async ({ page }) => {

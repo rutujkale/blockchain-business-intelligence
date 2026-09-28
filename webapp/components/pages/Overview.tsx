@@ -18,6 +18,7 @@ import {
   CHART_COLORS,
   compact,
   dec2,
+  dec4,
   int,
   monthTick,
   pct,
@@ -308,13 +309,13 @@ export default function OverviewPage({
             <div>
               <dt className="font-label-sm text-label-sm text-outline">Total gas</dt>
               <dd className="font-code-md text-code-md font-semibold text-on-surface">
-                ${int(kpi.total_gas_cost_usd)}
+                ${dec2(kpi.total_gas_cost_usd)}
               </dd>
             </div>
             <div>
               <dt className="font-label-sm text-label-sm text-outline">Avg gas / tx</dt>
               <dd className="font-code-md text-code-md font-semibold text-on-surface">
-                ${dec2(kpi.avg_gas_cost_usd)}
+                ${dec4(kpi.avg_gas_cost_usd)}
               </dd>
             </div>
             <div>

@@ -16,7 +16,7 @@ import type { Dataset } from "@/lib/dataset";
 import {
   CHART_COLORS,
   dec2,
-  dec6,
+  dec4,
   int,
   longDate,
   pct,
@@ -91,10 +91,10 @@ export default function OperationsPage({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg">
         <KpiCard
           label="Total Gas Cost"
-          value={`$${int(kpi.total_gas_cost_usd)}`}
+          value={`$${dec2(kpi.total_gas_cost_usd)}`}
           icon="local_gas_station"
           hint="USD, whole period"
-          badge={{ text: `$${dec2(kpi.avg_gas_cost_usd)}/tx`, tone: "neutral" }}
+          badge={{ text: `$${dec4(kpi.avg_gas_cost_usd)}/tx`, tone: "neutral" }}
         />
         <KpiCard
           label="Peak Single Day"
@@ -471,7 +471,7 @@ export default function OperationsPage({
           <div>
             <div className="font-label-sm text-label-sm text-outline">Avg gas cost</div>
             <div className="font-code-md text-code-md font-semibold text-on-surface">
-              ${dec6(kpi.avg_gas_cost_usd)}
+              ${dec4(kpi.avg_gas_cost_usd)}
             </div>
             <div className="font-code-sm text-code-sm text-outline">per transaction</div>
           </div>
