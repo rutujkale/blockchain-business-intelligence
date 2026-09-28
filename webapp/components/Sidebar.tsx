@@ -90,29 +90,6 @@ export function SidebarFooter({
         <span>{meta.chain} v3</span>
         <span>{longDate(String(meta.date_range.end))}</span>
       </div>
-      <div className="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors duration-150">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="h-7 w-7 shrink-0 rounded-full bg-primary-container text-on-primary font-headline-sm text-headline-sm flex items-center justify-center font-bold">
-            RK
-          </div>
-          <div className="flex flex-col leading-none min-w-0">
-            <span className="font-label-md text-label-md font-semibold text-on-surface truncate">
-              Rutuj Kale
-            </span>
-            <span className="font-code-sm text-code-sm text-outline">Lead Analytics</span>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={onOpenSystem}
-          title="System"
-          className="text-outline hover:text-on-surface shrink-0"
-        >
-          <span className="material-symbols-outlined" aria-hidden="true">
-            unfold_more
-          </span>
-        </button>
-      </div>
       <div className="pt-1">
         <button
           type="button"
