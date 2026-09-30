@@ -1,4 +1,4 @@
-# Blockchain Business Intelligence
+# Blockchain Business Intelligence - ChainBI
 
 **Turning on-chain transaction data into customer segmentation, retention analysis, and business recommendations for a DeFi protocol.**
 
